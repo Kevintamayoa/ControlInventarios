@@ -4,8 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
-
-import java.math.BigDecimal;
+import android.support.annotation.NonNull;
 
 //CREATE TABLE [products](
 //        [id] INTEGER PRIMARY KEY,
@@ -25,10 +24,11 @@ public class Products {
     @ForeignKey(entity = ProductCategories.class,
             parentColumns = "id", childColumns = "category_id")
     private int category_id;
+    @NonNull
     @ColumnInfo(name = "description")
     private String description;
     @ColumnInfo(name = "price")
-    private BigDecimal price;
+    private int price;
     @ColumnInfo(name = "qty")
     private int qty;
 
@@ -40,19 +40,20 @@ public class Products {
 
     public void setCategory_id(int category_id) { this.category_id = category_id; }
 
+    @NonNull
     public String getDescription() { return description; }
 
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(@NonNull String description) { this.description = description; }
 
-    public BigDecimal getPrice() { return price; }
+    public int getPrice() { return price; }
 
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public void setPrice(int price) { this.price = price; }
 
     public int getQty() { return qty; }
 
     public void setQty(int qty) { this.qty = qty; }
 
-    public Products(int id, int category_id, String description, BigDecimal price, int qty) {
+    public Products(int id, int category_id, @NonNull String description, int price, int qty) {
         this.id = id;
         this.category_id = category_id;
         this.description = description;
