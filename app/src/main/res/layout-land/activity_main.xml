@@ -1,38 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     android:background="#FAF5DE"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-
- <TextView
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:gravity="center|top"
-     android:text="Rafael G/Kevin T"
-     android:textColor="@android:color/holo_blue_dark"
-     android:textStyle="italic"
-     android:typeface="sans"
-
-     style="@style/TextAppearance.AppCompat.Subhead"
-     />
-
-<android.support.v4.widget.Space
-    android:layout_width="match_parent"
-    android:layout_height="40dp" />
-
-    <ImageView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center|top"
+        android:text="Rafael G/Kevin T"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textStyle="italic"
+        android:typeface="sans"
 
+        style="@style/TextAppearance.AppCompat.Subhead"
         />
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:gravity="center">
 
@@ -47,7 +38,7 @@
 
         <Space
             android:layout_width="20dp"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
         <ImageButton
             android:id="@+id/ensambles_button"
             android:layout_width="wrap_content"
@@ -56,13 +47,9 @@
             android:src="@drawable/icon_ensambles"
             android:backgroundTint="@android:color/transparent"
             android:text="Ensambles"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content" />
         <ImageButton
             android:id="@+id/clientes_button"
             android:layout_width="wrap_content"
@@ -72,9 +59,12 @@
             android:gravity="center"
             android:text="Clientes"/>
 
-        <Space
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
         <ImageButton
             android:id="@+id/ordenes_button"
             android:layout_width="wrap_content"
@@ -84,12 +74,9 @@
             android:gravity="center"
             android:text="Ordenes"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content" />
         <ImageButton
             android:id="@+id/reportes_button"
             android:layout_width="wrap_content"
@@ -101,7 +88,7 @@
 
         <Space
             android:layout_width="20dp"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
         <ImageButton
             android:saveEnabled="true"
             android:layout_width="wrap_content"
@@ -110,9 +97,7 @@
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
             android:text=""/>
-
     </LinearLayout>
-
 
 
 </LinearLayout>

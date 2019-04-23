@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 
 //CREATE TABLE [assembly_products](
 //        [id] INTEGER NOT NULL REFERENCES assemblies([id]),
@@ -14,10 +15,12 @@ import android.arch.persistence.room.Index;
 
 @Entity(tableName = "assembly_products")    // , indices = {@Index(value = "id",unique = true)})
 public class AssemblyProducts {
+    @PrimaryKey
     @ColumnInfo(name = "id")
     @ForeignKey(entity = Assemblies.class,
             parentColumns = "id", childColumns = "id")
     private int id;
+
     @ColumnInfo(name = "product_id")
     @ForeignKey(entity = Products.class,
             parentColumns = "id", childColumns = "product_id")

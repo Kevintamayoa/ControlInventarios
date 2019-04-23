@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="#FAF5DE"
+    tools:context=".NuevoCliente">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Space
+        android:layout_width="40dp"
+        android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Nombre:"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/nombre_text"
+            android:layout_width="250dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Apellido:"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/apellido_text"
+            android:layout_width="250dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Dirección:"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/direccion_text"
+            android:layout_width="250dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Teléfono:"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/telefono_text"
+            android:layout_width="250dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Teléfono 2:"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/telefono2_text"
+            android:layout_width="250dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+    <CheckBox
+        android:id="@+id/telefono2_check"
+    android:layout_width="wrap_content"
+        android:gravity="end"
+    android:layout_height="match_parent"
+    />
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Teléfono 3:"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/telefono3_text"
+            android:layout_width="250dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+        <CheckBox
+            android:id="@+id/telefono3_check"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Email:"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/email_text"
+            android:layout_width="250dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+        <CheckBox
+            android:id="@+id/email_check"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar"/>
+</LinearLayout>

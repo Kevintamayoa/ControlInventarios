@@ -3,6 +3,7 @@ package com.example.controlinventarios.db;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.PrimaryKey;
 
 //CREATE TABLE [order_assemblies](
 //        [id] INTEGER NOT NULL REFERENCES orders([id]),
@@ -12,6 +13,7 @@ import android.arch.persistence.room.ForeignKey;
 
 @Entity(tableName = "order_assemblies")
 public class OrderAssemblies {
+    @PrimaryKey
     @ColumnInfo(name = "id")
     @ForeignKey(entity = Orders.class,
             parentColumns = "id", childColumns = "id")
