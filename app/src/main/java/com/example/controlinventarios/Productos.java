@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -33,6 +34,7 @@ import java.util.List;
 class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout itemProduct;
         private TextView txtDescription;
         private TextView txtPrice;
         private TextView txtQuantity;
@@ -41,6 +43,7 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
+            itemProduct = itemView.findViewById(R.id.product_item);
             txtDescription = itemView.findViewById(R.id.product_name);
             txtPrice = itemView.findViewById(R.id.product_price);
             txtQuantity = itemView.findViewById(R.id.product_quantity);
@@ -48,7 +51,7 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 
         public void bind(Products product) {
             this.product = product;
-            String aux1 = "Precio: $" + product.getPrice();
+            String aux1 = "Precio: $" + product.getPrice()/100;
             String aux2 = "Cantidad: " + product.getQty();
             txtDescription.setText(product.getDescription());
             txtPrice.setText(aux1);
@@ -56,19 +59,46 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
         }
     }
 
+    ProductCategoriesDao pcDao;
     private List<Products> products;
+    Dialog productDialog;
 
-    public ProductsAdapter(List<Products> products) {
+    public ProductsAdapter(ProductCategoriesDao pcDao, List<Products> products) {
+        this.pcDao = pcDao;
         this.products = products;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.recycle_products, viewGroup, false);
-        ((Activity) viewGroup.getContext()).registerForContextMenu(view);
-        return new ViewHolder(view);
+        final ViewHolder viewHolder = new ViewHolder(view);
+        final Context context = viewGroup.getContext();
+
+        productDialog = new Dialog(context);
+        productDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        productDialog.setContentView(R.layout.aux_showproduct);
+
+        viewHolder.itemProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView auxcategoria = productDialog.findViewById(R.id.aux_productcat);
+                TextView auxproducto = productDialog.findViewById(R.id.aux_productname);
+                TextView auxprice = productDialog.findViewById(R.id.aux_productprice);
+                TextView auxqty = productDialog.findViewById(R.id.aux_productqty);
+                String categorytxt = "Categoria: "+pcDao.getProductCategory(products.get(viewHolder.getAdapterPosition()).getCategory_id());
+                String producttxt = "Nombre del producto: "+products.get(viewHolder.getAdapterPosition()).getDescription();
+                String pricetxt = "Precio: $"+products.get(viewHolder.getAdapterPosition()).getPrice()/100;
+                String qtytxt = "Cantidad: "+products.get(viewHolder.getAdapterPosition()).getQty();
+                auxcategoria.setText(categorytxt);
+                auxproducto.setText(producttxt);
+                auxprice.setText(pricetxt);
+                auxqty.setText(qtytxt);
+                productDialog.show();
+            }
+        });
+        return viewHolder;
     }
 
     @Override
@@ -110,8 +140,8 @@ public class Productos extends AppCompatActivity {
         categoriaspinner.setSelection(pCategories.getCount()-1);
 
         final ProductsDao productsDao = db.productsDao();
+        productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
         productosrecycler.setLayoutManager(new LinearLayoutManager(this));
-        productosrecycler.setAdapter(new ProductsAdapter(productsDao.getAllProductsByDescription(buscartext.getText().toString())));
 
         buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -139,9 +169,9 @@ public class Productos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (categoriaspinner.getSelectedItemPosition() >= (pcDao.getProductCategories().size())) {
-                    productosrecycler.setAdapter(new ProductsAdapter(productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+                    productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
                 } else {
-                    productosrecycler.setAdapter(new ProductsAdapter(
+                    productosrecycler.setAdapter(new ProductsAdapter(pcDao,
                             productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
                                     buscartext.getText().toString())));
                 }

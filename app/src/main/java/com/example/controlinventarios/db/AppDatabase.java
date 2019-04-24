@@ -131,7 +131,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (407, 4, 'Gigabyte G1.Sniper B7, 4xDDR4, PCIe, Gigabit, DVI / HDMI, Socket 1151', 229900, 3)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (408, 4, 'Gigabyte B150M-D3H-GSM, 4xDDR4, PCIe, Gigabit, HDMI / DVI/ VGA, Socket 1151', 179900, 0)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (409, 4, 'Gigabyte GA-B85M-D3V, 2xDDR3, DVI/VGA, PCIe, GigaLAN, Socket 1150', 123900, 4)");
-                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (410, 4, 'Gigabyte GA-H81M-DS2, 2xDDR3, PCIE, VGA, GLAN, Paralelo, Socket 1150', 11500, 3)");
+                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (410, 4, 'Gigabyte GA-H81M-DS2, 2xDDR3, PCIE, VGA, GLAN, Paralelo, Socket 1150', 115000, 3)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (411, 4, 'ECS (H81H3-M4) 2DDR3, 2PCIe Gigalan, USB3, HDMI, Soc1150', 94500, 3)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (412, 4, 'Gigabyte A-H110M-S2, 2xDDR4, PICe, Gigabit, VGA, Socket 1151', 116900, 1)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (413, 4, 'Gigabyte GA-B85M-DS3H-A, 4xDDR3, VGA, HDMI, DVI, Gigabit, Socket 1150', 149900, 0)");
