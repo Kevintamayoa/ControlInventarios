@@ -3,6 +3,7 @@ package com.example.controlinventarios.db;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 //CREATE TABLE [order_assemblies](
@@ -11,9 +12,11 @@ import android.arch.persistence.room.PrimaryKey;
 //        [qty] INTEGER NOT NULL,
 //        UNIQUE([id], [assembly_id]));
 
-@Entity(tableName = "order_assemblies")
+@Entity(tableName = "order_assemblies", indices = {@Index(value = {"id","assembly_id"},unique = true)})
 public class OrderAssemblies {
     @PrimaryKey
+    @ColumnInfo(name = "aux")
+    private int aux;
     @ColumnInfo(name = "id")
     @ForeignKey(entity = Orders.class,
             parentColumns = "id", childColumns = "id")
@@ -24,6 +27,10 @@ public class OrderAssemblies {
     private int assembly_id;
     @ColumnInfo(name = "qty")
     private int qty;
+
+    public int getAux() { return aux; }
+
+    public void setAux(int aux) { this.aux = aux; }
 
     public int getId() { return id; }
 
@@ -37,7 +44,8 @@ public class OrderAssemblies {
 
     public void setQty(int qty) { this.qty = qty; }
 
-    public OrderAssemblies(int id, int assembly_id, int qty) {
+    public OrderAssemblies(int aux, int id, int assembly_id, int qty) {
+        this.aux = aux;
         this.id = id;
         this.assembly_id = assembly_id;
         this.qty = qty;

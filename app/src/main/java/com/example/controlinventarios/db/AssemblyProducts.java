@@ -13,9 +13,11 @@ import android.arch.persistence.room.PrimaryKey;
 //        CHECK(qty >= 0),
 //        UNIQUE([id], [product_id]));
 
-@Entity(tableName = "assembly_products")    // , indices = {@Index(value = "id",unique = true)})
+@Entity(tableName = "assembly_products", indices = {@Index(value = {"id","product_id"},unique = true)})
 public class AssemblyProducts {
     @PrimaryKey
+    @ColumnInfo(name="aux")
+    private int aux;
     @ColumnInfo(name = "id")
     @ForeignKey(entity = Assemblies.class,
             parentColumns = "id", childColumns = "id")
@@ -27,6 +29,10 @@ public class AssemblyProducts {
     private int product_id;
     @ColumnInfo(name = "qty")
     private int qty;
+
+    public int getAux() { return aux; }
+
+    public void setAux(int aux) { this.aux = aux; }
 
     public int getId() { return id; }
 
@@ -40,7 +46,8 @@ public class AssemblyProducts {
 
     public void setQty(int qty) { this.qty = qty; }
 
-    public AssemblyProducts(int id, int product_id, int qty) {
+    public AssemblyProducts(int aux, int id, int product_id, int qty) {
+        this.aux = aux;
         this.id = id;
         this.product_id = product_id;
         this.qty = qty;

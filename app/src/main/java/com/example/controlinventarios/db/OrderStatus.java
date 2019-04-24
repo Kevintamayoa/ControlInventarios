@@ -18,17 +18,16 @@ public class OrderStatus {
     @PrimaryKey
     @ColumnInfo(name = "id")
     private int id;
-    @NonNull
     @ColumnInfo(name = "description")
+    @NonNull
     private String description;
-    public boolean test = true;
     @ColumnInfo(name = "editable") //editable solo puede ser false 0 o true 1
     private int editable;
-    @NonNull
     @ColumnInfo(name = "previous")
-    private String previous;
     @NonNull
+    private String previous;
     @ColumnInfo(name = "next")
+    @NonNull
     private String next;
 
     public int getId() { return id; }

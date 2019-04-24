@@ -1,54 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="#FAF5DE">
+    android:background="#FAF5DE"
+    android:orientation="horizontal">
+
+    <Space
+        android:layout_width="15dp"
+        android:layout_height="0dp" />
+
     <LinearLayout
         android:layout_width="200dp"
         android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        android:orientation="vertical"
-        >
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buscar:"
-            />
+            android:text="Buscar:" />
+
         <EditText
             android:id="@+id/buscarproductos_text"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Filtro:"
-            />
+            android:text="Filtro:" />
+
         <Spinner
             android:id="@+id/categoriaproductos_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <ImageButton
             android:id="@+id/buscarproductos_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_lupa"
             android:background="@android:color/transparent"
-            />
-
-
+            android:src="@drawable/icon_lupa" />
     </LinearLayout>
 
+    <Space
+        android:layout_width="15dp"
+        android:layout_height="0dp" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/productos_recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="15dp"
+        android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
 
+    <!-- Por si sirve
     <ListView
         android:id="@+id/productos_list"
         android:layout_width="match_parent"
         android:layout_height="550dp"
         android:background="@android:color/white"
         android:scrollbars="vertical"></ListView>
-
+        -->
 
 </LinearLayout>
