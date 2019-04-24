@@ -9,10 +9,9 @@ import java.util.List;
 
 @Dao
 public interface ProductsDao {
-
-    @Query("SELECT * FROM products p WHERE p.description LIKE '%'||:text||'%'")
+    @Query("SELECT * FROM products p WHERE p.description LIKE '%'||:text||'%' ORDER BY p.description")
     public List<Products> getAllProductsByDescription(String text);
 
-    @Query("SELECT * FROM products p WHERE p.category_id = :category AND p.description LIKE '%'||:text||'%' ORDER BY id")
+    @Query("SELECT * FROM products p WHERE p.category_id = :category AND p.description LIKE '%'||:text||'%' ORDER BY p.description")
     public List<Products> getProductsByCategoryAndDescription(int category,String text);
 }
