@@ -26,8 +26,9 @@
         <EditText
             android:id="@+id/buscarproductos_text"
             android:layout_width="250dp"
-            android:layout_height="match_parent"
-            android:gravity="center" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp" />
 
         <ImageButton
             android:id="@+id/buscarproductos_btn"
@@ -63,10 +64,10 @@
         android:id="@+id/productos_recycleview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
 
     <!-- Por si sirve

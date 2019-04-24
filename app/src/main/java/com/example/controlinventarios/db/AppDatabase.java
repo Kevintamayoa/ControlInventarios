@@ -38,7 +38,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (0, 0, 'Western Digital Purple WD10PURX, 3.5\", 1TB, SATA3, 6GB/s, 64MB, IntelliPower', 149900, 2)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (1, 0, 'Western Digital 3.5\" SATA de 320GB a 7200 RPM / New-Pulls / WD3200AAJS / WD3200AAKS', 43500, 4)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (2, 0, 'Toshiba 3.5\" 3TB, SATA 6.0Gb/s 64MB Cache, 7200 RPM', 209900, 0)");
-                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (3, 0, 'Toshiba 3.5\" de 1TB SATA', 1099, 0)");
+                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (3, 0, 'Toshiba 3.5\" de 1TB SATA', 109900, 0)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (4, 0, 'Seagate ST2000DM006 2TB 3.5\" 7200RPM SATA3 64MB', 158900, 1)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (5, 0, 'Seagate ST3000DM001 3TB 3.5\" 7200RPM SATA3 64MB', 209900, 5)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (6, 0, 'Western Digital Purple WD20PURX, 3.5\", 2TB, SATA3, 6GB/s, 64MB, IntelliPower', 209900, 1)");

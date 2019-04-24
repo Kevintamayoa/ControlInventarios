@@ -1,20 +1,24 @@
 package com.example.controlinventarios;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,12 +67,12 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.recycle_products, viewGroup, false);
-        ((Activity)viewGroup.getContext()).registerForContextMenu(view);
+        ((Activity) viewGroup.getContext()).registerForContextMenu(view);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.bind(products.get(i));
     }
 
@@ -76,8 +80,6 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
     public int getItemCount() {
         return products.size();
     }
-
-
 }
 
 public class Productos extends AppCompatActivity {
@@ -105,18 +107,43 @@ public class Productos extends AppCompatActivity {
         pCategories.addAll(pcDao.getProductCategories());
         pCategories.add("Todos");
         categoriaspinner.setAdapter(pCategories);
+        categoriaspinner.setSelection(pCategories.getCount()-1);
 
         final ProductsDao productsDao = db.productsDao();
-
         productosrecycler.setLayoutManager(new LinearLayoutManager(this));
+        productosrecycler.setAdapter(new ProductsAdapter(productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+
+        buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    // NOTE: In the author's example, he uses an identifier
+                    // called searchBar. If setting this code on your EditText
+                    // then use v.getWindowToken() as a reference to your
+                    // EditText is passed into this callback as a TextView
+                    in.hideSoftInputFromWindow(v
+                                    .getApplicationWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                    // Must return true here to consume event
+                    return true;
+
+                }
+                return false;
+            }
+        });
 
         buscarbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (categoriaspinner.getSelectedItemPosition() >= (pcDao.getProductCategories().size())) {
-                    Toast.makeText(Productos.this, "Elegiste Todos", Toast.LENGTH_SHORT).show();
+                    productosrecycler.setAdapter(new ProductsAdapter(productsDao.getAllProductsByDescription(buscartext.getText().toString())));
                 } else {
-                    Toast.makeText(Productos.this, "Elegiste otro", Toast.LENGTH_SHORT).show();
+                    productosrecycler.setAdapter(new ProductsAdapter(
+                            productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
+                                    buscartext.getText().toString())));
                 }
             }
         });

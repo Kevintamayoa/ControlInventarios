@@ -10,8 +10,9 @@
         android:layout_height="0dp" />
 
     <LinearLayout
-        android:layout_width="200dp"
+        android:layout_width="210dp"
         android:layout_height="match_parent"
+        android:layout_marginRight="18dp"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -24,7 +25,8 @@
             android:id="@+id/buscarproductos_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="match_parent"
