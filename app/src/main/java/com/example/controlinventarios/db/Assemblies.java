@@ -30,4 +30,23 @@ public class Assemblies {
         this.id = id;
         this.description = description;
     }
+
+    private int num_products;
+
+    public int getnum_products() { return num_products; }
+
+    public void setnum_products(int num_products) { this.num_products = num_products; }
+
+    private double cost;
+
+    public double getcost() { return cost; }
+
+    public void setcost(double cost) { this.cost = cost; }
+
+    public Assemblies(int id, String description,int num_products,double cost) {
+        this.id = id;
+        this.description = description;
+        this.cost=cost;
+        this.num_products=num_products;
+    }
 }

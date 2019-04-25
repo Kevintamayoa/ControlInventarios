@@ -3,45 +3,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:background="#FAF5DE"
     android:orientation="vertical"
     tools:context=".Productos">
-
-    <Space
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="15dp" />
+        android:layout_height="wrap_content"
+        app:title="Productos"
+        app:buttonGravity="top"
+        android:background="#FFCF8E"
+        android:backgroundTintMode="screen"
+        app:logo="@drawable/icon_reportes_mini"
 
+        >
+        <android.support.v7.widget.ActionMenuView
+            android:id="@+id/buscarproductos_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:elevation="@android:dimen/app_icon_size"
+            android:translationX="150dp"
+            android:tooltipText="Buscar prodcutos"
+            android:background="@drawable/ic_view"></android.support.v7.widget.ActionMenuView>
+
+    </android.support.v7.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="Buscar:" />
-
         <EditText
             android:id="@+id/buscarproductos_text"
-            android:layout_width="250dp"
+            android:layout_width="222dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
-
-        <ImageButton
-            android:id="@+id/buscarproductos_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@drawable/icon_lupa" />
     </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="15dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,27 +57,29 @@
 
         <Spinner
             android:id="@+id/categoriaproductos_spinner"
-            android:layout_width="250dp"
+            android:layout_width="222dp"
             android:layout_height="match_parent" />
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/productos_recycleview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
 
-    <!-- Por si sirve
-    <ListView
-        android:id="@+id/productos_list"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:scrollbars="vertical"></ListView>
-        -->
+
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/productos_recycleview"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="15dp"
+          android:layout_marginRight="15dp"
+          android:layout_marginBottom="15dp"
+          android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
+
+      <!-- Por si sirve
+      <ListView
+          android:id="@+id/productos_list"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:background="@android:color/white"
+          android:scrollbars="vertical"></ListView>
+          -->
 </LinearLayout>

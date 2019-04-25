@@ -21,6 +21,9 @@ public interface AssembliesDao {
     @Delete
     public void DeleteAssemblies(Assemblies assembly);
 
-    @Query("SELECT * FROM assemblies ORDER BY id")
+    @Query("SELECT A.id,A.description, " +
+            "(CASE WHEN (SELECT SUM(qty) FROM assembly_products WHERE id=A.id) IS NULL THEN 0 ELSE (SELECT SUM(qty) FROM assembly_products WHERE id=A.id) END) AS num_products," +
+            " (CASE WHEN (SELECT SUM(qty) FROM assembly_products WHERE id=A.id) IS NULL THEN 0 ELSE (SELECT SUM(B.qty*C.price) FROM assembly_products B INNER JOIN products C on(B.product_id=C.id) WHERE B.id=A.id) END) AS cost " +
+            "FROM assemblies A ORDER BY description ASC")
     public List<Assemblies> getAllAssemblies();
 }

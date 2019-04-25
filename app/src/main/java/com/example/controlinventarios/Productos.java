@@ -1,5 +1,6 @@
 package com.example.controlinventarios;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -17,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -30,6 +33,7 @@ import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Products;
 
 import java.util.List;
+import java.util.Locale;
 
 class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 
@@ -111,13 +115,17 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
         return products.size();
     }
 }
+////////////////////
+
+
+
 
 public class Productos extends AppCompatActivity {
 
     RecyclerView productosrecycler;
     EditText buscartext;
     Spinner categoriaspinner;
-    ImageButton buscarbtn;
+    ActionMenuView buscarbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,27 +151,27 @@ public class Productos extends AppCompatActivity {
         productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
         productosrecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId,
-                                          KeyEvent event) {
-                if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+      buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+          @Override
+          public boolean onEditorAction(TextView v, int actionId,
+                                        KeyEvent event) {
+              if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                  InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                    // NOTE: In the author's example, he uses an identifier
-                    // called searchBar. If setting this code on your EditText
-                    // then use v.getWindowToken() as a reference to your
-                    // EditText is passed into this callback as a TextView
-                    in.hideSoftInputFromWindow(v
-                                    .getApplicationWindowToken(),
-                            InputMethodManager.HIDE_NOT_ALWAYS);
-                    // Must return true here to consume event
-                    return true;
+                  // NOTE: In the author's example, he uses an identifier
+                  // called searchBar. If setting this code on your EditText
+                  // then use v.getWindowToken() as a reference to your
+                  // EditText is passed into this callback as a TextView
+                  in.hideSoftInputFromWindow(v
+                                  .getApplicationWindowToken(),
+                          InputMethodManager.HIDE_NOT_ALWAYS);
+                  // Must return true here to consume event
+                  return true;
 
-                }
-                return false;
-            }
-        });
+              }
+              return false;
+          }
+      });
 
         buscarbtn.setOnClickListener(new View.OnClickListener() {
             @Override

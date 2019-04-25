@@ -22,5 +22,5 @@ public interface AssemblyProductsDao {
     public void DeleteAssemblyProducts(AssemblyProducts assemblyproducts);
 
     @Query("SELECT * FROM assembly_products ORDER BY id")
-    public List<AssemblyProducts> getAllAssemblyProducts();
+    public List<AssemblyProducts> getAllAssemblyProductsByAssembly(int id);
 }
