@@ -14,14 +14,6 @@
         app:title="Productos"
         app:logo="@drawable/icon_reportes_mini"
         >
-        <android.support.v7.widget.ActionMenuView
-            android:id="@+id/buscarproductos_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="@android:dimen/app_icon_size"
-            android:translationX="450dp"
-            android:tooltipText="Buscar prodcutos"
-            android:background="@drawable/ic_view"></android.support.v7.widget.ActionMenuView>
 
     </android.support.v7.widget.Toolbar>
 

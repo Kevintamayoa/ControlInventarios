@@ -8,38 +8,46 @@
     android:background="#FAF5DE"
     tools:context=".Ensambles">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/ensambles_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Ensambles"
+        app:buttonGravity="top"
+        android:background="#FFCF8E"
+        android:backgroundTintMode="screen"
+        app:logo="@drawable/icon_ensambles_mini"
+
+        >
+
+    </android.support.v7.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        >
+        android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Buscar:"
-            android:gravity="center"/>
-        <EditText
-            android:id="@+id/buscar_text"
-            android:layout_width="250dp"
             android:gravity="center"
-            android:layout_height="match_parent" />
-        <ImageButton
-            android:id="@+id/buscar_btn"
-            android:layout_width="wrap_content"
+            android:text="Buscar:" />
+        <EditText
+            android:id="@+id/buscarensambles_text"
+            android:layout_width="222dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_lupa"
-            android:background="@android:color/transparent"
-            />
+            android:gravity="center"
+            android:textSize="18sp" />
     </LinearLayout>
-
-
     <Space
         android:layout_width="match_parent"
         android:layout_height="15dp" />
-    <ListView
-        android:id="@+id/items_list"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ensambles_recycleview"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:scrollbars="vertical"></ListView>
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

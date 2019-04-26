@@ -3,8 +3,10 @@ package com.example.controlinventarios.db;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.service.autofill.FillEventHistory;
 
 //CREATE TABLE [assembly_products](
 //        [id] INTEGER NOT NULL REFERENCES assemblies([id]),
@@ -52,4 +54,28 @@ public class AssemblyProducts {
         this.product_id = product_id;
         this.qty = qty;
     }
+    @Ignore
+    @ColumnInfo(name="product")
+    private String product;
+
+    public String getProduct() { return product; }
+
+    public void setProduct(String cost) { this.product = product; }
+    @Ignore
+    @ColumnInfo(name="price")
+    private int price;
+
+    public int getPrice() { return price; }
+
+    public void setPrice(int product_id) { this.price = price; }
+   @Ignore
+   public AssemblyProducts(int aux, int id, int product_id, int qty,String product,int price) {
+       this.aux = aux;
+       this.id = id;
+       this.product_id = product_id;
+       this.qty = qty;
+       this.product=product;
+       this.price=price;
+   }
 }
+

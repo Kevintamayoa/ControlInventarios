@@ -24,7 +24,7 @@
             android:gravity="center"
             android:layout_height="match_parent" />
         <ImageButton
-            android:id="@+id/buscar_btn"
+            android:id="@+id/buscaras_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_lupa"

@@ -26,10 +26,10 @@
             android:id="@+id/faltantes_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_faltantes"
+           android:src="@drawable/icon_faltantes"
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
-            android:text="Ordenes"/>
+            android:text="Ordenes" />
 
     </LinearLayout>
     <Space

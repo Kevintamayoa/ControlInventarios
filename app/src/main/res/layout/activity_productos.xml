@@ -9,6 +9,7 @@
     android:orientation="vertical"
     tools:context=".Productos">
     <android.support.v7.widget.Toolbar
+        android:id="@+id/productos_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="Productos"
@@ -16,16 +17,7 @@
         android:background="#FFCF8E"
         android:backgroundTintMode="screen"
         app:logo="@drawable/icon_reportes_mini"
-
         >
-        <android.support.v7.widget.ActionMenuView
-            android:id="@+id/buscarproductos_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           android:elevation="@android:dimen/app_icon_size"
-            android:translationX="150dp"
-            android:tooltipText="Buscar prodcutos"
-            android:background="@drawable/ic_view"></android.support.v7.widget.ActionMenuView>
 
     </android.support.v7.widget.Toolbar>
     <LinearLayout

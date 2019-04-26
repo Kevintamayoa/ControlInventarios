@@ -11,8 +11,12 @@ import android.os.Bundle;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -31,6 +35,7 @@ import com.example.controlinventarios.Dao.ProductCategoriesDao;
 import com.example.controlinventarios.Dao.ProductsDao;
 import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Products;
+import com.facebook.stetho.Stetho;
 
 import java.util.List;
 import java.util.Locale;
@@ -125,7 +130,6 @@ public class Productos extends AppCompatActivity {
     RecyclerView productosrecycler;
     EditText buscartext;
     Spinner categoriaspinner;
-    ActionMenuView buscarbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,59 +137,72 @@ public class Productos extends AppCompatActivity {
         setContentView(R.layout.activity_productos);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        productosrecycler = findViewById(R.id.productos_recycleview);
-        buscarbtn = findViewById(R.id.buscarproductos_btn);
-        buscartext = findViewById(R.id.buscarproductos_text);
-        categoriaspinner = findViewById(R.id.categoriaproductos_spinner);
+   productosrecycler = findViewById(R.id.productos_recycleview);
+   buscartext = findViewById(R.id.buscarproductos_text);
+   categoriaspinner = findViewById(R.id.categoriaproductos_spinner);
+   AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
 
-        AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+   final ProductCategoriesDao pcDao = db.productCategoriesDao();
+  ArrayAdapter<String> pCategories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
+ pCategories.addAll(pcDao.getProductCategories());
+  pCategories.add("Todos");
+  categoriaspinner.setAdapter(pCategories);
+  categoriaspinner.setSelection(pCategories.getCount()-1);
 
-        final ProductCategoriesDao pcDao = db.productCategoriesDao();
-        ArrayAdapter<String> pCategories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
-        pCategories.addAll(pcDao.getProductCategories());
-        pCategories.add("Todos");
-        categoriaspinner.setAdapter(pCategories);
-        categoriaspinner.setSelection(pCategories.getCount()-1);
+  final ProductsDao productsDao = db.productsDao();
+  productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+  productosrecycler.setLayoutManager(new LinearLayoutManager(this));
+        Toolbar toolbar = findViewById(R.id.productos_toolbar);
+        setSupportActionBar(toolbar);
+ buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+     @Override
+     public boolean onEditorAction(TextView v, int actionId,
+                                   KeyEvent event) {
+         if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+             InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        final ProductsDao productsDao = db.productsDao();
-        productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
-        productosrecycler.setLayoutManager(new LinearLayoutManager(this));
+             // NOTE: In the author's example, he uses an identifier
+             // called searchBar. If setting this code on your EditText
+             // then use v.getWindowToken() as a reference to your
+             // EditText is passed into this callback as a TextView
+             in.hideSoftInputFromWindow(v
+                             .getApplicationWindowToken(),
+                     InputMethodManager.HIDE_NOT_ALWAYS);
+             // Must return true here to consume event
+             return true;
 
-      buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-          @Override
-          public boolean onEditorAction(TextView v, int actionId,
-                                        KeyEvent event) {
-              if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                  InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                  // NOTE: In the author's example, he uses an identifier
-                  // called searchBar. If setting this code on your EditText
-                  // then use v.getWindowToken() as a reference to your
-                  // EditText is passed into this callback as a TextView
-                  in.hideSoftInputFromWindow(v
-                                  .getApplicationWindowToken(),
-                          InputMethodManager.HIDE_NOT_ALWAYS);
-                  // Must return true here to consume event
-                  return true;
-
-              }
-              return false;
-          }
-      });
-
-        buscarbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (categoriaspinner.getSelectedItemPosition() >= (pcDao.getProductCategories().size())) {
-                    productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
-                } else {
-                    productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                            productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                    buscartext.getText().toString())));
-                }
-            }
-        });
-
+         }
+         return false;
+     }
+ });
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+        case R.id.search_btn:
+            final ProductCategoriesDao pcDao = AppDatabase.getAppDatabase(getApplicationContext()).productCategoriesDao();
+            final ProductsDao productsDao =  AppDatabase.getAppDatabase(getApplicationContext()).productsDao();
+
+            if (categoriaspinner.getSelectedItemPosition() >= (pcDao.getProductCategories().size())) {
+                productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+            } else {
+                productosrecycler.setAdapter(new ProductsAdapter(pcDao,
+                        productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
+                                buscartext.getText().toString())));
+            }
+            return true;
+
+        default:
+           return super.onOptionsItemSelected(item);
+     }
+    }
+
 }
