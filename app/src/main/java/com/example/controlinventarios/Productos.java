@@ -60,7 +60,7 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 
         public void bind(Products product) {
             this.product = product;
-            String aux1 = "Precio: $" + product.getPrice()/100;
+            String aux1 = "Precio: $" + product.getPrice() / 100;
             String aux2 = "Cantidad: " + product.getQty();
             txtDescription.setText(product.getDescription());
             txtPrice.setText(aux1);
@@ -96,10 +96,10 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
                 TextView auxproducto = productDialog.findViewById(R.id.aux_productname);
                 TextView auxprice = productDialog.findViewById(R.id.aux_productprice);
                 TextView auxqty = productDialog.findViewById(R.id.aux_productqty);
-                String categorytxt = "Categoria: "+pcDao.getProductCategory(products.get(viewHolder.getAdapterPosition()).getCategory_id());
-                String producttxt = "Nombre del producto: "+products.get(viewHolder.getAdapterPosition()).getDescription();
-                String pricetxt = "Precio: $"+products.get(viewHolder.getAdapterPosition()).getPrice()/100;
-                String qtytxt = "Cantidad: "+products.get(viewHolder.getAdapterPosition()).getQty();
+                String categorytxt = "Categoria: " + pcDao.getProductCategory(products.get(viewHolder.getAdapterPosition()).getCategory_id());
+                String producttxt = "Nombre del producto: " + products.get(viewHolder.getAdapterPosition()).getDescription();
+                String pricetxt = "Precio: $" + products.get(viewHolder.getAdapterPosition()).getPrice() / 100;
+                String qtytxt = "Cantidad: " + products.get(viewHolder.getAdapterPosition()).getQty();
                 auxcategoria.setText(categorytxt);
                 auxproducto.setText(producttxt);
                 auxprice.setText(pricetxt);
@@ -137,44 +137,44 @@ public class Productos extends AppCompatActivity {
         setContentView(R.layout.activity_productos);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-   productosrecycler = findViewById(R.id.productos_recycleview);
-   buscartext = findViewById(R.id.buscarproductos_text);
-   categoriaspinner = findViewById(R.id.categoriaproductos_spinner);
-   AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+        productosrecycler = findViewById(R.id.productos_recycleview);
+        buscartext = findViewById(R.id.buscarproductos_text);
+        categoriaspinner = findViewById(R.id.categoriaproductos_spinner);
+        AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
 
-   final ProductCategoriesDao pcDao = db.productCategoriesDao();
-  ArrayAdapter<String> pCategories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
- pCategories.addAll(pcDao.getProductCategories());
-  pCategories.add("Todos");
-  categoriaspinner.setAdapter(pCategories);
-  categoriaspinner.setSelection(pCategories.getCount()-1);
+        final ProductCategoriesDao pcDao = db.productCategoriesDao();
+        ArrayAdapter<String> pCategories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
+        pCategories.addAll(pcDao.getProductCategories());
+        pCategories.add("Todos");
+        categoriaspinner.setAdapter(pCategories);
+        categoriaspinner.setSelection(pCategories.getCount() - 1);
 
-  final ProductsDao productsDao = db.productsDao();
-  productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
-  productosrecycler.setLayoutManager(new LinearLayoutManager(this));
+        final ProductsDao productsDao = db.productsDao();
+        productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+        productosrecycler.setLayoutManager(new LinearLayoutManager(this));
         Toolbar toolbar = findViewById(R.id.productos_toolbar);
         setSupportActionBar(toolbar);
- buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-     @Override
-     public boolean onEditorAction(TextView v, int actionId,
-                                   KeyEvent event) {
-         if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-             InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-             // NOTE: In the author's example, he uses an identifier
-             // called searchBar. If setting this code on your EditText
-             // then use v.getWindowToken() as a reference to your
-             // EditText is passed into this callback as a TextView
-             in.hideSoftInputFromWindow(v
-                             .getApplicationWindowToken(),
-                     InputMethodManager.HIDE_NOT_ALWAYS);
-             // Must return true here to consume event
-             return true;
+                    // NOTE: In the author's example, he uses an identifier
+                    // called searchBar. If setting this code on your EditText
+                    // then use v.getWindowToken() as a reference to your
+                    // EditText is passed into this callback as a TextView
+                    in.hideSoftInputFromWindow(v
+                                    .getApplicationWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                    // Must return true here to consume event
+                    return true;
 
-         }
-         return false;
-     }
- });
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -186,23 +186,23 @@ public class Productos extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-        case R.id.search_btn:
-            final ProductCategoriesDao pcDao = AppDatabase.getAppDatabase(getApplicationContext()).productCategoriesDao();
-            final ProductsDao productsDao =  AppDatabase.getAppDatabase(getApplicationContext()).productsDao();
+        switch (item.getItemId()) {
+            case R.id.search_btn:
+                final ProductCategoriesDao pcDao = AppDatabase.getAppDatabase(getApplicationContext()).productCategoriesDao();
+                final ProductsDao productsDao = AppDatabase.getAppDatabase(getApplicationContext()).productsDao();
 
-            if (categoriaspinner.getSelectedItemPosition() >= (pcDao.getProductCategories().size())) {
-                productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
-            } else {
-                productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                        productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                buscartext.getText().toString())));
-            }
-            return true;
+                if (categoriaspinner.getSelectedItemPosition() >= (pcDao.getProductCategories().size())) {
+                    productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+                } else {
+                    productosrecycler.setAdapter(new ProductsAdapter(pcDao,
+                            productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
+                                    buscartext.getText().toString())));
+                }
+                return true;
 
-        default:
-           return super.onOptionsItemSelected(item);
-     }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

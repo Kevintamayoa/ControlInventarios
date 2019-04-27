@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center"
+    android:gravity="center"
     android:background="#FAF5DE"
     android:orientation="vertical"
     tools:context=".Productos">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/productos_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Productos"
-        app:buttonGravity="top"
         android:background="#FFCF8E"
         android:backgroundTintMode="screen"
+        app:buttonGravity="top"
         app:logo="@drawable/icon_reportes_mini"
-        >
+        app:title="Productos">
 
     </android.support.v7.widget.Toolbar>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="Buscar:" />
+
         <EditText
             android:id="@+id/buscarproductos_text"
             android:layout_width="222dp"
@@ -36,6 +39,7 @@
             android:gravity="center"
             android:textSize="18sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,24 +58,19 @@
 
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/productos_recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
 
-
-      <android.support.v7.widget.RecyclerView
-          android:id="@+id/productos_recycleview"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:layout_marginLeft="15dp"
-          android:layout_marginTop="15dp"
-          android:layout_marginRight="15dp"
-          android:layout_marginBottom="15dp"
-          android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
-
-      <!-- Por si sirve
-      <ListView
-          android:id="@+id/productos_list"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:background="@android:color/white"
-          android:scrollbars="vertical"></ListView>
-          -->
+    <!-- Por si sirve
+    <ListView
+        android:id="@+id/productos_list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:scrollbars="vertical"></ListView>
+        -->
 </LinearLayout>

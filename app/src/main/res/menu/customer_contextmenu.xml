@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+    detalles, editar y eliminar
+    -->
+
+    <item
+        android:id="@+id/details_customer"
+        android:icon="@drawable/icon_add"
+        android:title="Detalles" />
+
+    <item
+        android:id="@+id/edit_customer"
+        android:icon="@drawable/ic_view"
+        android:title="Editar" />
+
+    <item
+        android:id="@+id/delete_customer"
+        android:icon="@drawable/ic_view"
+        android:title="Eliminar" />
+
+</menu>

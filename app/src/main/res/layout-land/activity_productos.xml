@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FAF5DE"
     android:orientation="vertical">
 
@@ -11,68 +11,58 @@
         android:layout_height="wrap_content"
         android:background="#FFCF8E"
         android:backgroundTintMode="screen"
-        app:title="Productos"
         app:logo="@drawable/icon_reportes_mini"
-        >
+        app:title="Productos">
 
     </android.support.v7.widget.Toolbar>
-
-         <LinearLayout
-             android:layout_width="210dp"
-             android:layout_height="match_parent"
-             android:layout_marginRight="18dp"
-             android:gravity="center_vertical"
-             android:orientation="horizontal">
-
 
     <LinearLayout
         android:layout_width="210dp"
         android:layout_height="match_parent"
         android:layout_marginRight="18dp"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buscar:" />
 
-        <EditText
-            android:id="@+id/buscarproductos_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="210dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="18dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Filtro:" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Buscar:" />
 
-        <Spinner
-            android:id="@+id/categoriaproductos_spinner"
+            <EditText
+                android:id="@+id/buscarproductos_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Filtro:" />
+
+            <Spinner
+                android:id="@+id/categoriaproductos_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/productos_recycleview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
+
 
     </LinearLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/productos_recycleview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
-
-
-
-
-      </LinearLayout>
-
-
-
-
-
-
-
-
 
 
 </LinearLayout>

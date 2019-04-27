@@ -4,74 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FAF5DE"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".Clientes">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/customer_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFCF8E"
+        android:backgroundTintMode="screen"
+        app:buttonGravity="bottom"
+        app:logo="@drawable/icon_clientes_mini"
+        app:title="Clientes"> </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        >
+        android:layout_margin="9dp"
+        android:gravity="center">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Buscar:"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="Buscar:" />
+
         <EditText
             android:id="@+id/buscar_text"
             android:layout_width="250dp"
-            android:gravity="center"
-            android:layout_height="match_parent" />
-        <ImageButton
-            android:id="@+id/buscaras_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_lupa"
-            android:background="@android:color/transparent"
-            />
+            android:layout_height="match_parent"
+            android:gravity="center" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
         android:gravity="center">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Filtro:"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="Filtro:" />
+
         <Spinner
-            android:id="@+id/categoria_spinner"
+            android:id="@+id/customer_spinner"
             android:layout_width="250dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="15dp" />
 
-    <ListView
-        android:id="@+id/items_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/customer_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
-        android:background="@android:color/white"
-        android:scrollbars="vertical"></ListView>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="15dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:background="#FAF5DE" >
 
-        <ImageButton
-            android:id="@+id/agregarcliente_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_add"
-            android:background="@android:color/transparent"
-            />
+    </android.support.v7.widget.RecyclerView>
 
-    </LinearLayout>
 </LinearLayout>
