@@ -35,7 +35,23 @@
             android:layout_height="18dp" />
 
         <TextView
-            android:id="@+id/customer_phone"
+            android:id="@+id/customer_phone1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_phone_black_40dp"
+            android:gravity="center"
+            android:text="N/A"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/customer_phone2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_phone_black_40dp"
+            android:gravity="center"
+            android:text="N/A"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/customer_phone3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_phone_black_40dp"
@@ -43,15 +59,20 @@
             android:text="N/A"
             android:textSize="18sp" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="18dp" />
-
         <TextView
             android:id="@+id/customer_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_email_black_40dp"
+            android:gravity="center"
+            android:text="N/A"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/customer_adress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_home_black_40dp"
             android:gravity="center"
             android:text="N/A"
             android:textSize="18sp" />

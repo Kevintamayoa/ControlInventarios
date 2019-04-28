@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:background="#FFCF8E"
         android:backgroundTintMode="screen"
-        app:buttonGravity="top"
         app:logo="@drawable/icon_reportes_mini"
         app:title="Productos">
 

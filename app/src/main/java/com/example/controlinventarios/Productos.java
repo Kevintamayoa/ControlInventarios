@@ -127,6 +127,7 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 
 public class Productos extends AppCompatActivity {
 
+    Toolbar toolbar;
     RecyclerView productosrecycler;
     EditText buscartext;
     Spinner categoriaspinner;
@@ -135,25 +136,25 @@ public class Productos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productos);
+        //Evita que se abra el edittext apenas abre el activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
+        //Declaracion del toolbar como un actionbar
+        toolbar = findViewById(R.id.productos_toolbar);
+        setSupportActionBar(toolbar);
+        //Inicializacion de los elementos
         productosrecycler = findViewById(R.id.productos_recycleview);
         buscartext = findViewById(R.id.buscarproductos_text);
         categoriaspinner = findViewById(R.id.categoriaproductos_spinner);
-        AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
-
+        AppDatabase db = AppDatabase.getAppDatabase(this);
         final ProductCategoriesDao pcDao = db.productCategoriesDao();
+        final ProductsDao productsDao = db.productsDao();
         ArrayAdapter<String> pCategories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
         pCategories.addAll(pcDao.getProductCategories());
         pCategories.add("Todos");
         categoriaspinner.setAdapter(pCategories);
         categoriaspinner.setSelection(pCategories.getCount() - 1);
-
-        final ProductsDao productsDao = db.productsDao();
-        productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
         productosrecycler.setLayoutManager(new LinearLayoutManager(this));
-        Toolbar toolbar = findViewById(R.id.productos_toolbar);
-        setSupportActionBar(toolbar);
+        productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
         buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId,
