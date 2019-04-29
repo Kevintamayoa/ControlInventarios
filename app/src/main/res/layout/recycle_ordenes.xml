@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?android:listSeparatorTextViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FAF5DE"
+    android:id="@+id/ordenes_item"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#A09999"/>
+
+    <TextView
+        android:id="@+id/ordenes_client"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:id="@+id/ordenes_price"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="18dp"/>
+        <TextView
+            android:id="@+id/ordenes_qty"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:id="@+id/assembly_state"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="18dp"/>
+        <TextView
+            android:id="@+id/assembly_date"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

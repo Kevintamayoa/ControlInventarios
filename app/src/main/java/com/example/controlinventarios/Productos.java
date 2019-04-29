@@ -37,6 +37,7 @@ import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Products;
 import com.facebook.stetho.Stetho;
 
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,7 +61,10 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 
         public void bind(Products product) {
             this.product = product;
-            String aux1 = "Precio: $" + product.getPrice() / 100;
+            NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
+            formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
+
+            String aux1 = "Precio: " +  formatoImporte.format(product.getPrice()/100);
             String aux2 = "Cantidad: " + product.getQty();
             txtDescription.setText(product.getDescription());
             txtPrice.setText(aux1);
@@ -97,10 +101,11 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
                 TextView auxprice = productDialog.findViewById(R.id.aux_productprice);
                 TextView auxqty = productDialog.findViewById(R.id.aux_productqty);
                 final ProductsDao pDao2 = AppDatabase.getAppDatabase(productDialog.getContext()).productsDao();
-
+                NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
+                formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
                 String categorytxt = "Categoria: " + pcDao.getProductCategory(products.get(viewHolder.getAdapterPosition()).getCategory_id());
                 String producttxt = "Nombre del producto: " + products.get(viewHolder.getAdapterPosition()).getDescription();
-                String pricetxt = "Precio: $" + products.get(viewHolder.getAdapterPosition()).getPrice() / 100;
+                String pricetxt = "Precio: " + formatoImporte.format(products.get(viewHolder.getAdapterPosition()).getPrice() / 100);
                 String qtytxt = "Cantidad: " +pDao2.getProductById(products.get(viewHolder.getAdapterPosition()).getId()).getQty();
                 auxcategoria.setText(categorytxt);
                 auxproducto.setText(producttxt);

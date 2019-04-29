@@ -8,73 +8,86 @@
     android:background="#FAF5DE"
     tools:context=".Ordenes">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/ordenes_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFCF8E"
+        android:backgroundTintMode="screen"
+        app:buttonGravity="bottom"
+        app:logo="@drawable/icon_ordenes_mini"
+        app:title="Clientes"> </android.support.v7.widget.Toolbar>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        >
+        android:layout_marginBottom="9dp"
+        android:gravity="center">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Buscar:"
-            android:gravity="center"/>
-        <EditText
-            android:id="@+id/buscarordenes_text"
-            android:layout_width="250dp"
             android:gravity="center"
+            android:text="Estado:" />
+
+        <Spinner
+            android:id="@+id/orden_state_spinner"
+            android:layout_width="250dp"
             android:layout_height="match_parent" />
-        <ImageButton
-            android:id="@+id/buscarordenes_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_lupa"
-            android:background="@android:color/transparent"
-            />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
         android:gravity="center">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Filtro:"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="Cliente:" />
+
         <Spinner
-            android:id="@+id/categoriaordenes_spinner"
+            android:id="@+id/orden_client_spinner"
             android:layout_width="250dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
-    <ListView
-        android:id="@+id/ordenes_list"
-        android:layout_width="match_parent"
-        android:layout_height="550dp"
-        android:background="@android:color/white"
-        android:scrollbars="vertical"></ListView>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="35dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
         android:gravity="center">
-
-        <ImageButton
-            android:id="@+id/agregarorden_btn"
+<CheckBox
+    android:id="@+id/inicio_check"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+        <DatePicker
+            android:id="@+id/inicio_date"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"></DatePicker>
+        <Space
+            android:layout_width="70dp"
+            android:layout_height="match_parent" />
+        <CheckBox
+            android:id="@+id/final_check"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_add"
-            android:background="@android:color/transparent"
-
-            />
-
-
+            android:layout_height="wrap_content" />
+        <DatePicker
+            android:id="@+id/final_date"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"></DatePicker>
 
     </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ordenes_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:background="#FAF5DE" >
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

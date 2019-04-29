@@ -45,12 +45,12 @@ public class Assemblies {
 
     public void setCost(double cost) { this.cost = cost; }
 
-    public Assemblies(int id,@NonNull String description,int num_products,double cost) {
-        this.id = id;
-        this.description = description;
-        this.cost=cost;
-        this.num_products=num_products;
-    }
+   // public Assemblies(int id,@NonNull String description,int num_products,double cost) {
+   //     this.id = id;
+   //     this.description = description;
+   //     this.cost=cost;
+   //     this.num_products=num_products;
+   // }
 
 
 

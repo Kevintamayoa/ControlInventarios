@@ -5,11 +5,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,28 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.controlinventarios.Dao.AssembliesDao;
-import com.example.controlinventarios.Dao.AssemblyProductsDao;
 import com.example.controlinventarios.Dao.ProductCategoriesDao;
 import com.example.controlinventarios.Dao.ProductsDao;
 import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Assemblies;
-import com.example.controlinventarios.db.AssemblyProducts;
-import com.example.controlinventarios.db.Products;
+import com.example.controlinventarios.db.Assemblies2;
 
-import java.text.Format;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.text.NumberFormat;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Locale;
 
 class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolder> {
 
@@ -49,7 +40,7 @@ class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolde
         private TextView txtPrice;
 
 
-        private Assemblies assembly;
+        private Assemblies2 assembly;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -59,9 +50,12 @@ class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolde
             txtQuantity = itemView.findViewById(R.id.assembly_quantity);
         }
 
-        public void bind(Assemblies assembly) {
+        public void bind(Assemblies2 assembly) {
             this.assembly = assembly;
-            String aux1 = "Precio: $" +  assembly.getCost()/100;
+            NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
+formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
+
+            String aux1 = "Precio: " +  formatoImporte.format(assembly.getCost()/100);
             String aux2 = "Productos: " + assembly.getNum_products();
             txtDescription.setText(assembly.getDescription());
             txtPrice.setText(aux1);
@@ -69,11 +63,11 @@ class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolde
         }
     }
 
-    private List<Assemblies> assemblies;
+    private List<Assemblies2> assemblies;
     ProductsDao pDao;
     Dialog assembliesDialog;
 
-    public AssambliesAdapter( List<Assemblies> assemblies, ProductsDao pDao) {
+    public AssambliesAdapter(List<Assemblies2> assemblies, ProductsDao pDao) {
         this.assemblies = assemblies;
         this.pDao=pDao;
     }
@@ -92,30 +86,22 @@ class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolde
         viewHolder.itemProduct.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-          //     Spinner categoriaspinner = assembliesDialog.findViewById(R.id.categoriaproductos_spinner);
                RecyclerView productosrecycler = assembliesDialog.findViewById(R.id.productos_recycleview2);
-            //   EditText  buscartext = assembliesDialog.findViewById(R.id.buscarproductos_text);
-           //    Toolbar toolbar = assembliesDialog.findViewById(R.id.productos_toolbar);
-           //    setSupportActionBar(toolbar);
                AppDatabase db = AppDatabase.getAppDatabase(assembliesDialog.getContext());
 
-             final ProductCategoriesDao pcDao = db.productCategoriesDao();
+               final ProductCategoriesDao pcDao = db.productCategoriesDao();
                final ProductsDao pDao2 = db.productsDao();
-             ArrayAdapter<String> pCategories = new ArrayAdapter<>(assembliesDialog.getContext(), R.layout.support_simple_spinner_dropdown_item);
-             pCategories.addAll(pcDao.getProductCategories());
-             pCategories.add("Todos");
+               ArrayAdapter<String> pCategories = new ArrayAdapter<>(assembliesDialog.getContext(), R.layout.support_simple_spinner_dropdown_item);
+               pCategories.addAll(pcDao.getProductCategories());
+               pCategories.add("Todos");
 
-           //    categoriaspinner.setAdapter(pCategories);
-           //    categoriaspinner.setSelection(pCategories.getCount() - 1);
-               List<Products> producto=new ArrayList<Products>();
-               producto.add(new Products(1,4,"asd",50,3));
                productosrecycler.setLayoutManager(new LinearLayoutManager(assembliesDialog.getContext()));
                productosrecycler.setAdapter(null);
                productosrecycler.setAdapter(new ProductsAdapter(pcDao,pDao2.getAllProductsByAssembly(assemblies.get(viewHolder.getAdapterPosition()).getId())));//
 
                assembliesDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-           assembliesDialog.show();
+               assembliesDialog.show();
            }
        });
         return viewHolder;
@@ -147,16 +133,16 @@ public class Ensambles extends AppCompatActivity {
         ensamblesrecycler = findViewById(R.id.ensambles_recycleview);
         buscartext = findViewById(R.id.buscarensambles_text);
 
-       AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+        AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
 
-       final AssembliesDao assembliesDao = db.assembliesDao();
-       ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString()),null));
-       ensamblesrecycler.setLayoutManager(new LinearLayoutManager(this));
+        final AssembliesDao assembliesDao = db.assembliesDao();
+        ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString()),null));
+        ensamblesrecycler.setLayoutManager(new LinearLayoutManager(this));
 
 
 
-      Toolbar toolbar = findViewById(R.id.ensambles_toolbar);
-      setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.ensambles_toolbar);
+        setSupportActionBar(toolbar);
 }
 
     @Override
@@ -167,17 +153,17 @@ public class Ensambles extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
- switch (item.getItemId()) {
-     case R.id.search_btn:
+        switch (item.getItemId()) {
+            case R.id.search_btn:
 
-         AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
-         final AssembliesDao assembliesDao = db.assembliesDao();
-         ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString()),null));
+                AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+                final AssembliesDao assembliesDao = db.assembliesDao();
+                ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString()),null));
 
-         return true;
+                return true;
 
-     default:
-       return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
  }
     }
 
