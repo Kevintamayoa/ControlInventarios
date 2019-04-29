@@ -357,6 +357,8 @@ public class NuevoCliente extends AppCompatActivity {
                 .setTitle("Saliendo Sin Guardar");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                Intent customersScreen = new Intent(NuevoCliente.this, Clientes.class);
+                startActivity(customersScreen);
                 finish();
             }
         });
