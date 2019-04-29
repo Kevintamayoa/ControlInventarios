@@ -224,8 +224,10 @@ public class Clientes extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_customer_btn:
-                Intent config = new Intent(Clientes.this, NuevoCliente.class);
-                startActivity(config);
+                Intent newCustomer = new Intent(Clientes.this, NuevoCliente.class);
+                newCustomer.putExtra("PURPOSE",0);
+                startActivity(newCustomer);
+                finish();
                 return true;
             case R.id.search_btn:
                 AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
@@ -270,7 +272,9 @@ public class Clientes extends AppCompatActivity {
                 editCustomer.putExtra("POSITION",item.getGroupId());
                 editCustomer.putExtra("SELECTED_FILTER",busquedaspinner.getSelectedItemPosition());
                 editCustomer.putExtra("TEXT_FILTERED",buscartext.getText().toString());
+                editCustomer.putExtra("PURPOSE",1);
                 startActivity(editCustomer);
+                finish();
                 return true;
             case 2:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
