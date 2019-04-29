@@ -96,10 +96,12 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
                 TextView auxproducto = productDialog.findViewById(R.id.aux_productname);
                 TextView auxprice = productDialog.findViewById(R.id.aux_productprice);
                 TextView auxqty = productDialog.findViewById(R.id.aux_productqty);
+                final ProductsDao pDao2 = AppDatabase.getAppDatabase(productDialog.getContext()).productsDao();
+
                 String categorytxt = "Categoria: " + pcDao.getProductCategory(products.get(viewHolder.getAdapterPosition()).getCategory_id());
                 String producttxt = "Nombre del producto: " + products.get(viewHolder.getAdapterPosition()).getDescription();
                 String pricetxt = "Precio: $" + products.get(viewHolder.getAdapterPosition()).getPrice() / 100;
-                String qtytxt = "Cantidad: " + products.get(viewHolder.getAdapterPosition()).getQty();
+                String qtytxt = "Cantidad: " +pDao2.getProductById(products.get(viewHolder.getAdapterPosition()).getId()).getQty();
                 auxcategoria.setText(categorytxt);
                 auxproducto.setText(producttxt);
                 auxprice.setText(pricetxt);

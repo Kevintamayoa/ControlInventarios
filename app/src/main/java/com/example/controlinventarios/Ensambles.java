@@ -34,7 +34,11 @@ import com.example.controlinventarios.db.AssemblyProducts;
 import com.example.controlinventarios.db.Products;
 
 import java.text.Format;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolder> {
 
@@ -66,12 +70,14 @@ class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolde
     }
 
     private List<Assemblies> assemblies;
+    ProductsDao pDao;
     Dialog assembliesDialog;
 
-    public AssambliesAdapter( List<Assemblies> assemblies) {
+    public AssambliesAdapter( List<Assemblies> assemblies, ProductsDao pDao) {
         this.assemblies = assemblies;
+        this.pDao=pDao;
     }
-    ProductsDao pDao;
+
 
     @NonNull
     @Override
@@ -82,17 +88,33 @@ class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolde
         final Context context = viewGroup.getContext();
         assembliesDialog = new Dialog(context);
         assembliesDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        assembliesDialog.setContentView(R.layout.recycle_products);
+        assembliesDialog.setContentView(R.layout.aux_showlistproducts);
         viewHolder.itemProduct.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-             //  TextView auxproducto = assembliesDialog.findViewById(R.id.productos_recycleview);
-            //   String producttxt = "Nombre del producto: "+assemblies.get(viewHolder.getAdapterPosition()).getDescription();
+          //     Spinner categoriaspinner = assembliesDialog.findViewById(R.id.categoriaproductos_spinner);
+               RecyclerView productosrecycler = assembliesDialog.findViewById(R.id.productos_recycleview2);
+            //   EditText  buscartext = assembliesDialog.findViewById(R.id.buscarproductos_text);
+           //    Toolbar toolbar = assembliesDialog.findViewById(R.id.productos_toolbar);
+           //    setSupportActionBar(toolbar);
+               AppDatabase db = AppDatabase.getAppDatabase(assembliesDialog.getContext());
 
-             //  auxproducto.setText(producttxt);
-         //      RecyclerView productosrecycler = assembliesDialog.findViewById(R.id.productos_recycleview);
-         //    final AssemblyProductsDao productsDao = db.assemblyProductsDao();
-         //    productosrecycler.setAdapter(new ProductsAdapter(pDao, productsDao.getAllAssemblyProductsByAssembly(i)));
+             final ProductCategoriesDao pcDao = db.productCategoriesDao();
+               final ProductsDao pDao2 = db.productsDao();
+             ArrayAdapter<String> pCategories = new ArrayAdapter<>(assembliesDialog.getContext(), R.layout.support_simple_spinner_dropdown_item);
+             pCategories.addAll(pcDao.getProductCategories());
+             pCategories.add("Todos");
+
+           //    categoriaspinner.setAdapter(pCategories);
+           //    categoriaspinner.setSelection(pCategories.getCount() - 1);
+               List<Products> producto=new ArrayList<Products>();
+               producto.add(new Products(1,4,"asd",50,3));
+               productosrecycler.setLayoutManager(new LinearLayoutManager(assembliesDialog.getContext()));
+               productosrecycler.setAdapter(null);
+               productosrecycler.setAdapter(new ProductsAdapter(pcDao,pDao2.getAllProductsByAssembly(assemblies.get(viewHolder.getAdapterPosition()).getId())));//
+
+               assembliesDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
            assembliesDialog.show();
            }
        });
@@ -128,7 +150,7 @@ public class Ensambles extends AppCompatActivity {
        AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
 
        final AssembliesDao assembliesDao = db.assembliesDao();
-       ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString())));
+       ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString()),null));
        ensamblesrecycler.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -150,7 +172,7 @@ public class Ensambles extends AppCompatActivity {
 
          AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
          final AssembliesDao assembliesDao = db.assembliesDao();
-         ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString())));
+         ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString()),null));
 
          return true;
 

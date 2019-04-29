@@ -21,6 +21,4 @@ public interface AssemblyProductsDao {
     @Delete
     public void DeleteAssemblyProducts(AssemblyProducts assemblyproducts);
 
-    @Query("SELECT A.aux as aux,A.id as id,A.product_id as product_id,A.qty as qty,B.description as product,B.price as price FROM assembly_products A INNER JOIN products B ON(A.product_id=B.id) WHERE A.id=:id " )
-    public List<AssemblyProducts> getAllAssemblyProductsByAssembly(int id);
 }

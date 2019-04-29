@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAF5DE"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/ensambles_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFCF8E"
+        android:backgroundTintMode="screen"
+        app:logo="@drawable/icon_ensambles_mini"
+        app:title="Ensambles">
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="18dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="210dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="18dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Buscar:" />
+
+            <EditText
+                android:id="@+id/buscarensambles_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ensambles_recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FAF5DE"
+            android:padding="15dp"> </android.support.v7.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
