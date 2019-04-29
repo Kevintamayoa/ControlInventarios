@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#FAF5DE"
+    android:orientation="vertical"
     tools:context=".ProductosFaltantes">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/missing_products_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFCF8E"
+        android:backgroundTintMode="screen"
+        app:logo="@drawable/icon_reportes_mini"
+        app:title="Productos faltantes">
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/missing_products_recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FAF5DE"
+        android:padding="15dp"></android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
