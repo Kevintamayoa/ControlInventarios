@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:gravity="center"
+    android:background="#FAF5DE"
+    android:orientation="vertical"
+    tools:context=".ResumenVentas">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/sold_briefing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFCF8E"
+        android:backgroundTintMode="screen"
+        app:logo="@drawable/icon_resumen_40"
+        app:title="Resumen de Ventas"> </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/sells_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FAF5DE"
+        android:padding="15dp"> </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

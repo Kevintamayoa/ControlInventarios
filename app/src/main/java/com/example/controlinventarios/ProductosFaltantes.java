@@ -20,7 +20,9 @@ import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.ProductCategories;
 import com.example.controlinventarios.db.Products;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 class MissingProductsAdapter extends RecyclerView.Adapter<MissingProductsAdapter.ViewHolder> {
 
@@ -42,8 +44,11 @@ class MissingProductsAdapter extends RecyclerView.Adapter<MissingProductsAdapter
 
         public void bind(Products product) {
             this.product = product;
-            String aux1 = "Precio por unidad: $" + product.getPrice() / 100;
-            String aux2 = "Cantidad faltante: " + product.getQty();
+            NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
+            formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
+
+            String aux1 = "Precio por unidad:\n" +  formatoImporte.format(product.getPrice()/100);
+            String aux2 = "Cantidad faltante:\n" + product.getQty();
             txtDescription.setText(product.getDescription());
             txtPrice.setText(aux1);
             txtQuantity.setText(aux2);
@@ -79,10 +84,12 @@ class MissingProductsAdapter extends RecyclerView.Adapter<MissingProductsAdapter
                 TextView auxprice = productDialog.findViewById(R.id.aux_productprice);
                 TextView auxqty = productDialog.findViewById(R.id.aux_productqty);
 
+                NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
+                formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
                 String categorytxt = "Categoria: " + pcDao.getProductCategory(missingProducts.get(viewHolder.getAdapterPosition()).getCategory_id());
                 String producttxt = "Producto faltante: " + missingProducts.get(viewHolder.getAdapterPosition()).getDescription();
-                String pricetxt = "Precio por unidad: $" + missingProducts.get(viewHolder.getAdapterPosition()).getPrice() / 100;
-                String qtytxt = "Cantidad faltante: " +missingProducts.get(viewHolder.getAdapterPosition()).getQty();
+                String pricetxt = "Precio por unidad:\n" + formatoImporte.format(missingProducts.get(viewHolder.getAdapterPosition()).getPrice() / 100);
+                String qtytxt = "Cantidad faltante:\n" +missingProducts.get(viewHolder.getAdapterPosition()).getQty();
                 auxcategoria.setText(categorytxt);
                 auxproducto.setText(producttxt);
                 auxprice.setText(pricetxt);
