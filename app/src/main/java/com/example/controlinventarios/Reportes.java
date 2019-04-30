@@ -36,7 +36,7 @@ public class Reportes extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent config = new Intent(Reportes.this, ConfirmarOrdenes.class);
+                Intent config = new Intent(Reportes.this, SimulacionDeConfirmaciones.class);
                 startActivity(config);
             }});
     }
