@@ -36,4 +36,7 @@ public interface CustomersDao {
 
     @Query("SELECT * FROM customers c WHERE c.e_mail LIKE '%'||:email||'%' ORDER BY c.last_name, c.first_name")
     public List<Customers> getCustomerByEmail(String email);
+
+    @Query("SELECT * FROM customers c WHERE c.id==:id")
+    public Customers getCustomer(int id);
 }

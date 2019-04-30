@@ -21,7 +21,8 @@
 
         <EditText
             android:id="@+id/edit_customer_firstname"
-            android:layout_width="280dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -35,7 +36,8 @@
 
         <EditText
             android:id="@+id/edit_customer_lastname"
-            android:layout_width="280dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -74,7 +76,8 @@
 
         <EditText
             android:id="@+id/edit_customer_phone1"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -87,7 +90,8 @@
 
         <EditText
             android:id="@+id/edit_customer_phone2"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -111,7 +115,8 @@
 
         <EditText
             android:id="@+id/edit_customer_phone3"
-            android:layout_width="280dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -136,7 +141,8 @@
 
         <EditText
             android:id="@+id/edit_email"
-            android:layout_width="626dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
