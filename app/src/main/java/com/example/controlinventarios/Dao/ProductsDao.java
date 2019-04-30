@@ -23,4 +23,20 @@ public interface ProductsDao {
 
     @Query("SELECT p.id, p.category_id, p.description, p.price, oa.qty*ap.qty-p.qty AS qty FROM orders o INNER JOIN order_assemblies oa ON (o.id==oa.id) INNER JOIN assembly_products ap ON (oa.assembly_id==ap.id) INNER JOIN products p ON (ap.product_id==p.id) WHERE o.status_id == 0 AND (oa.qty*ap.qty-p.qty)>0")
     public List<Products> getMissingProducts();
+
+    @Query("SELECT p.id, p.category_id, p.description, p.price, p.qty AS qty FROM orders o INNER JOIN customers c ON (o.customer_id==c.id) " +
+            "INNER JOIN order_assemblies oa ON (o.id==oa.id) INNER JOIN assembly_products ap ON (oa.assembly_id==ap.id) " +
+            "INNER JOIN products p ON (ap.product_id==p.id) WHERE o.status_id ==0 GROUP BY p.id ORDER BY p.id ASC")
+    public List<Products> getAllProducts();
+
+    @Query("SELECT p.id, p.category_id, p.description, p.price, SUM(oa.qty*ap.qty) AS qty " +
+            "FROM orders o " +
+            "INNER JOIN customers c ON (o.customer_id==c.id) " +
+            "INNER JOIN order_assemblies oa ON (o.id==oa.id) " +
+            "INNER JOIN assembly_products ap ON (oa.assembly_id==ap.id) " +
+            "INNER JOIN products p ON (ap.product_id==p.id) " +
+            "WHERE o.id == :id " +
+            "GROUP BY p.id " +
+            "ORDER BY p.id ASC")
+    public List<Products> getAllProductsByOrder(int id);
 }

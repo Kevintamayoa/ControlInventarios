@@ -16,10 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.controlinventarios.Dao.CustomersDao;
-import com.example.controlinventarios.Dao.ProductsDao;
 import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Customers;
 import com.example.controlinventarios.db.EarningsPerOrder;
@@ -228,51 +225,5 @@ public class ResumenVentas extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-    }
-}
-
-class MonthlyEarnings {
-    private String day;
-    private String month;
-    private String year;
-    private int earnings;
-
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public int getEarnings() {
-        return earnings;
-    }
-
-    public void setEarnings(int earnings) {
-        this.earnings = earnings;
-    }
-
-    public MonthlyEarnings(String day, String month, String year, int earnings) {
-        this.day = day;
-        this.month = month;
-        this.year = year;
-        this.earnings = earnings;
     }
 }
