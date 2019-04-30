@@ -300,5 +300,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CustomersDao customersDao();
     public abstract OrdersDao ordersDao();
     public abstract StatusDao statusDao();
-
+    public abstract EarningsPerOrder earningsPerOrder();
 }
