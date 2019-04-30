@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.example.controlinventarios.Dao.AssembliesDao;
 import com.example.controlinventarios.Dao.AssemblyProductsDao;
 import com.example.controlinventarios.Dao.CustomersDao;
+import com.example.controlinventarios.Dao.EarningPerOrderDao;
 import com.example.controlinventarios.Dao.OrdersDao;
 import com.example.controlinventarios.Dao.ProductCategoriesDao;
 import com.example.controlinventarios.Dao.ProductsDao;
@@ -300,5 +301,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CustomersDao customersDao();
     public abstract OrdersDao ordersDao();
     public abstract StatusDao statusDao();
-    public abstract EarningsPerOrder earningsPerOrder();
+    public abstract EarningPerOrderDao earningsPerOrderDao();
 }

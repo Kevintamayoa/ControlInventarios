@@ -51,7 +51,7 @@ class BriefingDetailsAdapter extends RecyclerView.Adapter<BriefingDetailsAdapter
 
         public void bind(EarningsPerOrder earningsPerOrder) {
             this.earningsPerOrder = earningsPerOrder;
-            Customers customer = AppDatabase.getAppDatabase(itemView.getContext()).customersDao().getCustomer(earningsPerOrder.getCustomer_id());
+            Customers customer = AppDatabase.getAppDatabase(itemView.getContext()).customersDao().getCustomerById(earningsPerOrder.getCustomer_id());
             String aux1 = customer.getLast_name()+", "+customer.getFirst_name();
             txtName.setText(aux1);
             String aux2 = "Pedido hecho el dia:\n"+earningsPerOrder.getDate();
@@ -192,7 +192,7 @@ public class ResumenVentas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumen_ventas);
         toolbar = findViewById(R.id.sold_briefing);
-        earningsPerOrders = AppDatabase.getAppDatabase(this).ordersDao().getEarningsPerOrder();
+        earningsPerOrders = AppDatabase.getAppDatabase(this).earningsPerOrderDao().getEarningsPerOrder();
         monthlyEarnings = new ArrayList<>();
         int counter = 0;
         for (EarningsPerOrder earningsPerOrder : earningsPerOrders) {
