@@ -128,10 +128,11 @@ class SimulationCustomerAdapter extends RecyclerView.Adapter<SimulationCustomerA
         viewHolder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(context, "Productos faltantes", Toast.LENGTH_LONG).show();
                 for (Products auxproducts2 : orderProducts) {
                     for (Products auxproducts : products) {
-                        if(auxproducts.getId()==auxproducts2.getId()){
-
+                        if(auxproducts.getId()==auxproducts2.getId()&&auxproducts.getQty()<0){
+                            Toast.makeText(context, auxproducts2.getDescription(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
