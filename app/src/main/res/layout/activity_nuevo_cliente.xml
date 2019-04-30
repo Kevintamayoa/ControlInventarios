@@ -163,9 +163,13 @@
         android:layout_width="0dp"
         android:layout_height="60dp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/save_customer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Guardar" />
+        android:text="Guardar"
+        android:background="@android:color/transparent"
+        android:src="@drawable/icon_save"
+
+        />
 </LinearLayout>

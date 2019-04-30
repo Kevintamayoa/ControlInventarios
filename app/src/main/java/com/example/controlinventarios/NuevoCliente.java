@@ -42,7 +42,7 @@ public class NuevoCliente extends AppCompatActivity {
     CheckBox chckPhone3;
     EditText editEmail;
     CheckBox chckEmail;
-    Button saveCustomer;
+    ImageButton saveCustomer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

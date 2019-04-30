@@ -186,7 +186,7 @@ class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHolder> {
    //  txtLog.setText(aux6);
   // auxAssemblies.setLayoutManager(new LinearLayoutManager(detailsDialog.getContext()));
    // auxAssemblies.setAdapter(null);
-    auxAssemblies.setAdapter(new AssambliesAdapter(aDao.getAllAssembliesByOrder(orders.get(position).getId()),pDao));//
+  //  auxAssemblies.setAdapter(new AssambliesAdapter(aDao.getAllAssembliesByOrder(orders.get(position).getId()),pDao));//
 
    //  assembliesDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         detailsDialog.show();

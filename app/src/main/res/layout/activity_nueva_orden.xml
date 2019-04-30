@@ -8,6 +8,14 @@
     android:orientation="vertical"
     android:background="#FAF5DE"
     tools:context=".NuevaOrden">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/nuevaorden_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFCF8E"
+        android:backgroundTintMode="screen"
+        app:buttonGravity="bottom"
+       app:title="Nueva Orden"> </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +27,7 @@
             android:text="Cliente:"
             android:gravity="center"/>
         <Spinner
-            android:id="@+id/categoria_spinner"
+            android:id="@+id/nuevocliente_spinner"
             android:layout_width="250dp"
             android:layout_height="match_parent"/>
 
@@ -28,27 +36,16 @@
         android:layout_width="match_parent"
         android:layout_height="15dp" />
 
-    <ListView
-        android:id="@+id/items_list"
-        android:layout_width="match_parent"
-        android:layout_height="550dp"
-        android:background="@android:color/white"
-        android:scrollbars="vertical"></ListView>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="30dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
 
-        <ImageButton
-            android:id="@+id/agregarcliente_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_add"
-            android:background="@android:color/transparent"
-            />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/nuevo_assemblies_recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
 
-    </LinearLayout>
 </LinearLayout>
