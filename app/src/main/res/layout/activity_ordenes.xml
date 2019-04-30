@@ -57,33 +57,45 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginBottom="9dp"
         android:gravity="center">
 <CheckBox
     android:id="@+id/inicio_check"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
-        <DatePicker
+      <ImageButton
             android:id="@+id/inicio_date"
-            android:layout_width="100dp"
-            android:foreground="@android:color/transparent"
-            android:datePickerMode="calendar"
-            android:calendarTextColor="@android:color/black"
-
-            android:layout_height="match_parent"></DatePicker>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_calendar"
+            android:background="@android:color/transparent"/>
+      <EditText
+          android:id="@+id/inicio_date_text"
+          android:layout_width="90dp"
+          android:textSize="18px"
+          android:layout_height="match_parent"
+          android:enabled="false"/>
         <Space
-            android:layout_width="70dp"
+            android:layout_width="10dp"
             android:layout_height="match_parent" />
         <CheckBox
             android:id="@+id/final_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <DatePicker
+        <ImageButton
             android:id="@+id/final_date"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"></DatePicker>
-
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_calendar"
+            android:background="@android:color/transparent"
+            />
+        <EditText
+            android:id="@+id/final_date_text"
+            android:layout_width="90dp"
+            android:textSize="18px"
+            android:layout_height="match_parent"
+            android:enabled="false"/>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/orders_recycle"

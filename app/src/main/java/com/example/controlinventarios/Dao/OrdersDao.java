@@ -5,12 +5,19 @@ import android.arch.persistence.room.Query;
 
 import com.example.controlinventarios.db.Orders;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
 public interface OrdersDao {
-    @Query("SELECT * FROM orders")
+    @Query("SELECT id as id,status_id as status_id,customer_id as customer_id,date as date,(case when change_log is null then ' ' else change_log end) as change_log FROM orders")
     public List<Orders> getAllOrders();
+
+    @Query("SELECT id as id,status_id as status_id,customer_id as customer_id,date as date,(case when change_log is null then ' ' else change_log end) as change_log FROM orders WHERE status_id IN (:list)")
+    public List<Orders> getAllOrdersByStatusId(int[] list);
+
+    @Query("SELECT id as id,status_id as status_id,customer_id as customer_id,date as date,(case when change_log is null then ' ' else change_log end) as change_log FROM orders WHERE status_id IN (:list) AND customer_id=:customer_id")
+    public List<Orders> getAllOrdersByStatusId(int[] list,int customer_id);
 
     @Query("SELECT (CASE WHEN (SELECT SUM(A.qty) FROM order_assemblies A WHERE A.id= :id) IS NULL THEN 0 \n" +
             "ELSE (SELECT SUM(A.qty) FROM order_assemblies A WHERE A.id=:id) END) AS qty  ")

@@ -28,9 +28,7 @@ public interface AssembliesDao {
             "on(B.product_id=C.id) WHERE B.id=A.id) END) AS cost FROM assemblies A WHERE A.description LIKE '%'||:text||'%' ORDER BY description ASC")
     public List<Assemblies2> getAllAssemblies(String text);
 
-  //  @Query("SELECT A.id as id,A.description as description, " +
-  //          "(CASE WHEN (SELECT SUM(qty) FROM assembly_products WHERE id=A.id) IS NULL THEN 0 ELSE (SELECT SUM(qty) FROM assembly_products WHERE id=A.id) END) AS num_products," +
-  //          " (CASE WHEN (SELECT SUM(qty) FROM assembly_products WHERE id=A.id) IS NULL THEN 0 ELSE (SELECT SUM(B.qty*C.price) FROM assembly_products B INNER JOIN products C " +
-  //          "on(B.product_id=C.id) WHERE B.id=A.id) END) AS cost FROM assemblies A WHERE A.description LIKE '%'||:text||'%' ORDER BY description ASC ")
-  //  public List<Assemblies2> getAllAssembliesByOrder(int id);
+    @Query("SELECT A.id as id,A.description as description,AUX.qty AS num_products, (SELECT SUM(B.qty*C.price) FROM assembly_products B INNER JOIN products C " +
+            "on(B.product_id=C.id) WHERE B.id=A.id) AS cost FROM assemblies A INNER JOIN order_assemblies AUX on(A.id=AUX.assembly_id) WHERE AUX.id=:id ORDER BY description ASC ")
+    public List<Assemblies2> getAllAssembliesByOrder(int id);
 }

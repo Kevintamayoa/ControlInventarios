@@ -8,6 +8,7 @@ import android.arch.persistence.room.Update;
 
 import com.example.controlinventarios.db.Customers;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 @Dao
@@ -42,6 +43,8 @@ public interface CustomersDao {
 
     @Query("SELECT (last_name ||', '|| first_name) FROM customers c  ORDER BY c.last_name, c.first_name")
     public List<String> getAllCustomerCat();
+    @Query("SELECT c.id FROM customers c  ORDER BY c.last_name, c.first_name")
+    public int[] getAllCustomerCatId();
 
     @Query("SELECT * FROM customers WHERE id=:id")
     public Customers getCustomerById(int id);

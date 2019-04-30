@@ -49,7 +49,8 @@ public class Orders {
 
     public void setDate(@NonNull String date) { this.date = date; }
 
-    public String getChange_log() { return change_log; }
+    public String getChange_log() {
+       return change_log; }
 
     public void setChange_log(String change_log) { this.change_log = change_log; }
 
