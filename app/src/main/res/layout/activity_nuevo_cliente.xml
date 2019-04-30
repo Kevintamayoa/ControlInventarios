@@ -99,8 +99,7 @@
 
         <EditText
             android:id="@+id/edit_customer_phone2"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -124,8 +123,7 @@
 
         <EditText
             android:id="@+id/edit_customer_phone3"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -133,7 +131,8 @@
         <CheckBox
             android:id="@+id/chck_edit_phone3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+           />
     </LinearLayout>
 
     <LinearLayout
@@ -150,8 +149,7 @@
 
         <EditText
             android:id="@+id/edit_email"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />

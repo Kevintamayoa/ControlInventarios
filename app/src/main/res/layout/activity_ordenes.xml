@@ -16,7 +16,7 @@
         android:backgroundTintMode="screen"
         app:buttonGravity="bottom"
         app:logo="@drawable/icon_ordenes_mini"
-        app:title="Clientes"> </android.support.v7.widget.Toolbar>
+        app:title="Órdenes"> </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,6 +67,10 @@
         <DatePicker
             android:id="@+id/inicio_date"
             android:layout_width="100dp"
+            android:foreground="@android:color/transparent"
+            android:datePickerMode="calendar"
+            android:calendarTextColor="@android:color/black"
+
             android:layout_height="match_parent"></DatePicker>
         <Space
             android:layout_width="70dp"
@@ -82,12 +86,13 @@
 
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/ordenes_recyclerview"
+        android:id="@+id/orders_recycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="15dp"
-        android:background="#FAF5DE" >
-
-    </android.support.v7.widget.RecyclerView>
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="#FAF5DE"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

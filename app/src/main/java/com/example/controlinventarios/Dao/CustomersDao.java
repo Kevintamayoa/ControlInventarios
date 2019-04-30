@@ -34,9 +34,17 @@ public interface CustomersDao {
     @Query("SELECt * FROM customers c WHERE c.phone1 LIKE '%'||:tel||'%' OR c.phone2 LIKE '%'||:tel||'%' OR c.phone3 LIKE '%'||:tel||'%' ORDER BY c.last_name, c.first_name")
     public List<Customers> getCustomerByTelephone(String tel);
 
-    @Query("SELECT * FROM customers c WHERE c.e_mail LIKE '%'||:email||'%' ORDER BY c.last_name, c.first_name")
-    public List<Customers> getCustomerByEmail(String email);
+    @Query("SELECt * FROM customers c WHERE c.e_mail LIKE '%'||:tel||'%'  ORDER BY c.last_name, c.first_name")
+    public List<Customers> getCustomerByEmail(String tel);
 
-    @Query("SELECT * FROM customers c WHERE c.id==:id")
-    public Customers getCustomer(int id);
+    @Query("SELECT * FROM customers c  ORDER BY c.last_name, c.first_name")
+    public List<Customers> getAllCustomer();
+
+    @Query("SELECT (last_name ||', '|| first_name) FROM customers c  ORDER BY c.last_name, c.first_name")
+    public List<String> getAllCustomerCat();
+
+    @Query("SELECT * FROM customers WHERE id=:id")
+    public Customers getCustomerById(int id);
+
+
 }

@@ -223,7 +223,7 @@ public class Clientes extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.add_customer_btn:
+            case R.id.add_btn:
                 Intent newCustomer = new Intent(Clientes.this, NuevoCliente.class);
                 newCustomer.putExtra("PURPOSE",0);
                 startActivity(newCustomer);

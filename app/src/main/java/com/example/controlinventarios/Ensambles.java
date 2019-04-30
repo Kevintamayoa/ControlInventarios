@@ -53,8 +53,7 @@ class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolde
         public void bind(Assemblies2 assembly) {
             this.assembly = assembly;
             NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
-formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
-
+            formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
             String aux1 = "Precio: " +  formatoImporte.format(assembly.getCost()/100);
             String aux2 = "Productos: " + assembly.getNum_products();
             txtDescription.setText(assembly.getDescription());
