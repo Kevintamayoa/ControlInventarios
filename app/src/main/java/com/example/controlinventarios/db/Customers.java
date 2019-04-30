@@ -73,6 +73,8 @@ public class Customers {
 
     public void setE_mail(String e_mail) { this.e_mail = e_mail; }
 
+    public String getCompleteName() { return last_name+", "+first_name; }
+
     public Customers(int id, @NonNull String first_name, @NonNull String last_name, @NonNull String address, String phone1, String phone2, String phone3, String e_mail) {
         this.id = id;
         this.first_name = first_name;

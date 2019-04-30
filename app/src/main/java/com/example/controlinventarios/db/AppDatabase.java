@@ -10,8 +10,10 @@ import android.support.annotation.NonNull;
 import com.example.controlinventarios.Dao.AssembliesDao;
 import com.example.controlinventarios.Dao.AssemblyProductsDao;
 import com.example.controlinventarios.Dao.CustomersDao;
+import com.example.controlinventarios.Dao.OrdersDao;
 import com.example.controlinventarios.Dao.ProductCategoriesDao;
 import com.example.controlinventarios.Dao.ProductsDao;
+import com.example.controlinventarios.Dao.StatusDao;
 
 @Database(entities = {Assemblies.class,AssemblyProducts.class,Customers.class,
         OrderAssemblies.class,Orders.class,OrderStatus.class,ProductCategories.class,Products.class}, version = 1) //, exportSchema = false)
@@ -296,5 +298,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ProductsDao productsDao();
     public abstract ProductCategoriesDao productCategoriesDao();
     public abstract CustomersDao customersDao();
+    public abstract OrdersDao ordersDao();
+    public abstract StatusDao statusDao();
 
 }
