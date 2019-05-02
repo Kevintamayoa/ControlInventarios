@@ -80,6 +80,7 @@ class SimulationCustomerAdapter extends RecyclerView.Adapter<SimulationCustomerA
     Context context;
     ProductsDao pDao = AppDatabase.getAppDatabase(context).productsDao();
     List<Products> orderProducts;
+    List<String> smProducts = new ArrayList<>();
 
     public SimulationCustomerAdapter(List<EarningsPerOrder> earningsPerOrders, List<Products> products) {
         this.products = products;
@@ -98,20 +99,26 @@ class SimulationCustomerAdapter extends RecyclerView.Adapter<SimulationCustomerA
 
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.bind(earningsPerOrders.get(i));
         orderProducts = new ArrayList<>();
         orderProducts = pDao.getAllProductsByOrder(earningsPerOrders.get(i).getId());
+        StringBuffer missProducts = new StringBuffer("");
         for (Products auxproducts2 : orderProducts) {
             for (Products auxproducts : products) {
                 if (auxproducts2.getId() == auxproducts.getId()) {
                     if (auxproducts.getQty() - auxproducts2.getQty() < 0) {
                         count++;
+                        String tmp = auxproducts.getDescription()+"ç";
+                        missProducts.append(tmp);
                     }
                     auxproducts.setQty(auxproducts.getQty() - auxproducts2.getQty());
                 }
             }
         }
+        String aux =""+count;
+        Toast.makeText(context,aux , Toast.LENGTH_SHORT).show();
+        smProducts.add(missProducts.toString());
         if (count == 0) {
             count=0;
             viewHolder.cv.setCardBackgroundColor(Color.GREEN);
@@ -124,16 +131,14 @@ class SimulationCustomerAdapter extends RecyclerView.Adapter<SimulationCustomerA
             count=0;
             viewHolder.cv.setCardBackgroundColor(Color.YELLOW);
         }
-
         viewHolder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Productos faltantes", Toast.LENGTH_LONG).show();
-                for (Products auxproducts2 : orderProducts) {
-                    for (Products auxproducts : products) {
-                        if(auxproducts.getId()==auxproducts2.getId()&&auxproducts.getQty()<0){
-                            Toast.makeText(context, auxproducts2.getDescription(), Toast.LENGTH_SHORT).show();
-                        }
+                String[] mProdcuts = smProducts.get(viewHolder.getAdapterPosition()).split("ç");
+                for(String string : mProdcuts){
+                    if(!string.equals("")){
+                        Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
