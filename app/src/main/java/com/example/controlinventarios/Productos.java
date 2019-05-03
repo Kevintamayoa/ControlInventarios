@@ -1,18 +1,13 @@
 package com.example.controlinventarios;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,11 +17,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,7 +28,6 @@ import com.example.controlinventarios.Dao.ProductCategoriesDao;
 import com.example.controlinventarios.Dao.ProductsDao;
 import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Products;
-import com.facebook.stetho.Stetho;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -133,6 +124,7 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 
 public class Productos extends AppCompatActivity {
 
+    ArrayAdapter<String> pCategories;
     Toolbar toolbar;
     RecyclerView productosrecycler;
     EditText buscartext;
@@ -154,49 +146,18 @@ public class Productos extends AppCompatActivity {
         AppDatabase db = AppDatabase.getAppDatabase(this);
         final ProductCategoriesDao pcDao = db.productCategoriesDao();
         final ProductsDao productsDao = db.productsDao();
-        ArrayAdapter<String> pCategories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
-        pCategories.add("Todos");
+        pCategories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
         pCategories.addAll(pcDao.getProductCategories());
+        pCategories.add("Todos");
         categoriaspinner.setAdapter(pCategories);
         productosrecycler.setLayoutManager(new LinearLayoutManager(this));
-        categoriaspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
-                        break;
-                    case 1:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                                productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                        buscartext.getText().toString())));
-                        break;
-                    case 2:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                                productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                        buscartext.getText().toString())));
-                        break;
-                    case 3:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                                productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                        buscartext.getText().toString())));
-                        break;
-                    case 4:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                                productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                        buscartext.getText().toString())));
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        if(categoriaspinner.getSelectedItemPosition()<pCategories.getCount()-1){
+            productosrecycler.setAdapter(new ProductsAdapter(pcDao,
+                    productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
+                            buscartext.getText().toString())));
+        }else{
+            productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+        }
         buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId,
@@ -233,40 +194,36 @@ public class Productos extends AppCompatActivity {
             case R.id.search_btn:
                 final ProductCategoriesDao pcDao = AppDatabase.getAppDatabase(getApplicationContext()).productCategoriesDao();
                 final ProductsDao productsDao = AppDatabase.getAppDatabase(getApplicationContext()).productsDao();
-
-                switch (categoriaspinner.getSelectedItemPosition()) {
-                    case 0:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
-                        break;
-                    case 1:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                                productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                        buscartext.getText().toString())));
-                        break;
-                    case 2:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                                productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                        buscartext.getText().toString())));
-                        break;
-                    case 3:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                                productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                        buscartext.getText().toString())));
-                        break;
-                    case 4:
-                        productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                                productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                        buscartext.getText().toString())));
-                        break;
-                    default:
-                        break;
-
+                if(categoriaspinner.getSelectedItemPosition()<pCategories.getCount()-1){
+                    productosrecycler.setAdapter(new ProductsAdapter(pcDao,
+                    productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(), buscartext.getText().toString())));
+                }else{
+                    productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
                 }
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("POSITION",categoriaspinner.getSelectedItemPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        AppDatabase db = AppDatabase.getAppDatabase(this);
+        final ProductCategoriesDao pcDao = db.productCategoriesDao();
+        final ProductsDao productsDao = db.productsDao();
+        categoriaspinner.setSelection(savedInstanceState.getInt("POSITION"));
+        if(categoriaspinner.getSelectedItemPosition()<pCategories.getCount()-1){
+            productosrecycler.setAdapter(new ProductsAdapter(pcDao,
+            productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(), buscartext.getText().toString())));
+        }else{
+            productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+        }
+    }
 }
