@@ -15,7 +15,7 @@
         android:background="#FFCF8E"
         android:backgroundTintMode="screen"
         app:logo="@drawable/icon_confirmar_40dp"
-        app:title="Resumen de Ventas"> </android.support.v7.widget.Toolbar>
+        app:title="Simulacion de ordenes"> </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"

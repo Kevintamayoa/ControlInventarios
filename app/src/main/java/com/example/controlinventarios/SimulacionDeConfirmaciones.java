@@ -73,7 +73,6 @@ class SimulationCustomerAdapter extends RecyclerView.Adapter<SimulationCustomerA
         }
     }
 
-
     int count=0;
     List<Products> products;
     List<EarningsPerOrder> earningsPerOrders;
@@ -116,8 +115,6 @@ class SimulationCustomerAdapter extends RecyclerView.Adapter<SimulationCustomerA
                 }
             }
         }
-        String aux =""+count;
-        Toast.makeText(context,aux , Toast.LENGTH_SHORT).show();
         smProducts.add(missProducts.toString());
         if (count == 0) {
             count=0;

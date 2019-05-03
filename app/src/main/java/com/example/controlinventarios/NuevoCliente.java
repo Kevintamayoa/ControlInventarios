@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -212,7 +213,43 @@ public class NuevoCliente extends AppCompatActivity {
             }
         });
         //Recuperando informacion transmitida por el activity anterior
+        editPhone2.setEnabled(false);
+        editPhone3.setEnabled(false);
+        editEmail.setEnabled(false);
+        chckPhone3.setEnabled(false);
         Bundle customerInfo = this.getIntent().getExtras();
+        chckPhone2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    editPhone2.setEnabled(true);
+                    chckPhone3.setEnabled(true);
+                }else{
+                    editPhone2.setEnabled(false);
+                    chckPhone3.setEnabled(false);
+                }
+            }
+        });
+        chckPhone3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    editPhone3.setEnabled(true);
+                }else{
+                    editPhone3.setEnabled(false);
+                }
+            }
+        });
+        chckEmail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    editEmail.setEnabled(true);
+                }else{
+                    editEmail.setEnabled(false);
+                }
+            }
+        });
         //Creacion de nuevo usuario
         if (customerInfo.getInt(PURPOSE) == NEW_CUSTOMER) {
             Toast.makeText(this, "New Customer", Toast.LENGTH_SHORT).show();

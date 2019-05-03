@@ -23,6 +23,8 @@
             android:id="@+id/edit_customer_firstname"
             android:layout_width="wrap_content"
             android:layout_weight="1"
+            android:digits="abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+            android:inputType="textCapSentences"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -38,6 +40,8 @@
             android:id="@+id/edit_customer_lastname"
             android:layout_width="wrap_content"
             android:layout_weight="1"
+            android:digits="abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+            android:inputType="textCapSentences"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -80,6 +84,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:inputType="phone"
             android:textSize="18sp" />
 
         <TextView
@@ -93,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:inputType="phone"
             android:gravity="center"
             android:textSize="18sp" />
 
@@ -115,8 +121,9 @@
 
         <EditText
             android:id="@+id/edit_customer_phone3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_weight="1"
+            android:inputType="phone"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp" />
@@ -145,6 +152,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:inputType="textEmailAddress"
             android:textSize="18sp" />
         <CheckBox
             android:id="@+id/chck_edit_email"
