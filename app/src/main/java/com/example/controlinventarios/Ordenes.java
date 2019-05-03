@@ -156,7 +156,7 @@ class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHolder> {
     public void ordensDetails(int position){
         detailsDialog = new Dialog(context);
         detailsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        detailsDialog.setContentView(R.layout.recycle_ordenes);
+        detailsDialog.setContentView(R.layout.aux_showassemblies);
         ///
      TextView txtClient = detailsDialog.findViewById(R.id.ordenes_client);
     TextView txtStatus = detailsDialog.findViewById(R.id.ordenes_state);
@@ -184,12 +184,11 @@ class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHolder> {
      txtPrice.setText(aux1);
      txtDate.setText(aux5);
      txtQty.setText(aux2);
-   //  txtLog.setText(aux6);
-       //  assemblies2.add(new Assemblies2(1,"ad",4,52));
-   auxAssemblies.setLayoutManager(new LinearLayoutManager(detailsDialog.getContext()));
-   auxAssemblies.setAdapter(new AssambliesAdapter(assemblies2));//
+     txtLog.setText(aux6);
+  auxAssemblies.setLayoutManager(new LinearLayoutManager(detailsDialog.getContext()));
+  auxAssemblies.setAdapter(new AssambliesAdapter(aDao.getAllAssembliesByOrder(orders.get(position).getId())));//
 
-     assembliesDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+  //  assembliesDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         detailsDialog.show();
     }
     public void cancelOrden(final int position) {

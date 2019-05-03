@@ -115,21 +115,21 @@ class NuevoProductsAdapter extends RecyclerView.Adapter<NuevoProductsAdapter.Vie
         detailsDialog = new Dialog(context);
         detailsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         detailsDialog.setContentView(R.layout.aux_showlistproducts);
-        ///
-       // RecyclerView productosrecycler = detailsDialog.findViewById(R.id.productos_recycleview2);
-       // AppDatabase db = AppDatabase.getAppDatabase(detailsDialog.getContext());
 //
-       // final ProductCategoriesDao pcDao = db.productCategoriesDao();
-       // final ProductsDao pDao2 = db.productsDao();
-       // ArrayAdapter<String> pCategories = new ArrayAdapter<>(detailsDialog.getContext(), R.layout.support_simple_spinner_dropdown_item);
-       // pCategories.addAll(pcDao.getProductCategories());
-       // pCategories.add("Todos");
-//
-       // productosrecycler.setLayoutManager(new LinearLayoutManager(detailsDialog.getContext()));
-       // productosrecycler.setAdapter(null);
-       // productosrecycler.setAdapter(new ProductsAdapter(pcDao,pDao2.getAllProductsByAssembly(assemblies.get(position).getId())));//
-//
-       // detailsDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+ RecyclerView productosrecycler = detailsDialog.findViewById(R.id.productos_recycleview2);
+ AppDatabase db = AppDatabase.getAppDatabase(detailsDialog.getContext());
+
+ final ProductCategoriesDao pcDao = db.productCategoriesDao();
+ final ProductsDao pDao2 = db.productsDao();
+ ArrayAdapter<String> pCategories = new ArrayAdapter<>(detailsDialog.getContext(), R.layout.support_simple_spinner_dropdown_item);
+ pCategories.addAll(pcDao.getProductCategories());
+ pCategories.add("Todos");
+
+ productosrecycler.setLayoutManager(new LinearLayoutManager(detailsDialog.getContext()));
+ productosrecycler.setAdapter(null);
+ productosrecycler.setAdapter(new ProductsAdapter(pcDao,pDao2.getAllProductsByAssembly(assemblies.get(position).getId())));//
+
+ detailsDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         detailsDialog.show();
     }
@@ -140,6 +140,7 @@ public class NuevoEnsamble extends AppCompatActivity {
     EditText Buscartext;
     RecyclerView ensamblesrecyvle;
     int clienteid;
+    int[] assemblies2;
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,8 +151,10 @@ public class NuevoEnsamble extends AppCompatActivity {
 
         if(savedInstanceState!=null){
             clienteid=savedInstanceState.getInt("ClienteId");
-
-        }
+            if(savedInstanceState.getInt("tipo")==1){
+                assemblies2=savedInstanceState.getIntArray("assemblies");
+            }
+          }
            Buscartext=findViewById(R.id.buscarensambles_text);
            ensamblesrecyvle=findViewById(R.id.nuevo_assemblies_recycleview);
            toolbar=findViewById(R.id.nuevaensambles_toolbar);
@@ -159,9 +162,9 @@ public class NuevoEnsamble extends AppCompatActivity {
            AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
            final ProductCategoriesDao pcDao = db.productCategoriesDao();
            final AssembliesDao assembliesDao = db.assembliesDao();
-
+adapter=new NuevoProductsAdapter( assembliesDao.getAllAssemblies(Buscartext.getText().toString()));
         ensamblesrecyvle.setLayoutManager(new LinearLayoutManager(this));
-       ensamblesrecyvle.setAdapter(new NuevoProductsAdapter( assembliesDao.getAllAssemblies(Buscartext.getText().toString())));
+       ensamblesrecyvle.setAdapter(adapter);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -201,6 +204,7 @@ public class NuevoEnsamble extends AppCompatActivity {
                         Bundle parametros = new Bundle();
                         int aux=item.getGroupId();
                         parametros.putInt("ENSAMBLE",aux);
+                        parametros.putInt("tipo",1);
                         parametros.putInt("ClienteId",clienteid);
                         customersScreen.putExtras(parametros);
                         startActivity(customersScreen);
@@ -228,6 +232,8 @@ public class NuevoEnsamble extends AppCompatActivity {
                 Intent customersScreen = new Intent(NuevoEnsamble.this, NuevaOrden.class);
                 Bundle parametros = new Bundle();
                 parametros.putInt("ClienteId",clienteid);
+                parametros.putIntArray("assemblies",assemblies2);
+                parametros.putInt("tipo",0);
                 customersScreen.putExtras(parametros);
                 startActivity(customersScreen);
                 finish();
@@ -246,6 +252,7 @@ public class NuevoEnsamble extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("ClienteId", clienteid);
         outState.putString("Buscar", Buscartext.getText().toString());
+        outState.putIntArray("assemblies",assemblies2);
           }
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){
@@ -253,6 +260,7 @@ public class NuevoEnsamble extends AppCompatActivity {
      clienteid = savedInstanceState.getInt("ClienteId");
         final   AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
         final AssembliesDao assembliesDao = db.assembliesDao();
+        assemblies2=savedInstanceState.getIntArray("assemblies");
         ensamblesrecyvle.setAdapter(new NuevoProductsAdapter( assembliesDao.getAllAssemblies(savedInstanceState.getString("Buscar"))));
         //Evita que se abra el edittext apenas abre el activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);

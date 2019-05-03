@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.example.controlinventarios.Dao.AssembliesDao;
 import com.example.controlinventarios.Dao.CustomersDao;
+import com.example.controlinventarios.Dao.OrdersAssembliesDao;
 import com.example.controlinventarios.Dao.OrdersDao;
 import com.example.controlinventarios.Dao.ProductsDao;
 import com.example.controlinventarios.Dao.StatusDao;
@@ -34,10 +35,12 @@ import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Assemblies;
 import com.example.controlinventarios.db.Assemblies2;
 import com.example.controlinventarios.db.Customers;
+import com.example.controlinventarios.db.OrderAssemblies;
 import com.example.controlinventarios.db.Orders;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,29 +75,27 @@ class NuevaOrdenesAdapter extends RecyclerView.Adapter<NuevaOrdenesAdapter.ViewH
         }
     }
     List<Assemblies2> assemblies;
-    Customers customer;
-    List<Customers> customers;
     private List<Orders> orders;
+    int[] assemblies2;
     Dialog assembliesDialog;
     private Orders order;
-    public NuevaOrdenesAdapter(Customers customer,List<Assemblies2> assemblies) {
-        this.customer = customer;
-        this.assemblies=assemblies;
+    public NuevaOrdenesAdapter(int[] assemblies) {
+        AppDatabase db = AppDatabase.getAppDatabase(this.context);
+        assemblies2=assemblies;
+        AssembliesDao assembliesDao = db.assembliesDao();
+        for (int i=0;i<assemblies.length;i++){
+            this.assemblies.add(assembliesDao.getAssemblyById(assemblies[i]));
+        }
     }
     Context context;
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, final int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.recycle_ordenes, viewGroup, false);
+                .inflate(R.layout.recycle_assemblies, viewGroup, false);
         final ViewHolder viewHolder = new ViewHolder(view);
         context = viewGroup.getContext();
-        AppDatabase db = AppDatabase.getAppDatabase(this.context);
-        CustomersDao customersDao = db.customersDao();
-
-        customers=customersDao.getAllCustomer();
-
-        ((Activity) viewGroup.getContext()).registerForContextMenu(view);
+          ((Activity) viewGroup.getContext()).registerForContextMenu(view);
         viewHolder.itemProduct.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -125,17 +126,48 @@ class NuevaOrdenesAdapter extends RecyclerView.Adapter<NuevaOrdenesAdapter.ViewH
         assemblies.add(assemblies2.getAssemblyById(id));
 
     }
+    public void addOrder(final int ClientId,int[] assemblies){
+        AppDatabase db = AppDatabase.getAppDatabase(this.context);
+        OrdersDao ordersDao = db.ordersDao();
+        OrdersAssembliesDao ordersAssembliesDao=db.ordersAssembliesDao();
+        int id=ordersDao.getMaxId()+1;
+ordersDao.InserOrder(new Orders(id,0,ClientId, "2019-05-03",""));
+ArrayList<OrderAssemblies> orderAssemblies=new ArrayList<OrderAssemblies>();
+boolean ban=false;
+for (int i=0;i<assemblies.length;i++){
+    ban=false;
+    for (OrderAssemblies obj:orderAssemblies){
+        if(obj.getAssembly_id()==assemblies[i]){
+            obj.setQty(obj.getQty()+1);
+            ban=true;
+        }
+    }
+    if(!ban){
+        orderAssemblies.add(new OrderAssemblies(0,0,assemblies[i],1));
+    }
+}
+        for (OrderAssemblies obj:orderAssemblies){
+            int id2=ordersAssembliesDao.getMaxId()+1;
+
+            ordersAssembliesDao.InserOrder(new OrderAssemblies(id2,id,obj.getAssembly_id(),obj.getQty()));
+        }
+            }
 
     public void deleteAssembly(final int position){
        assemblies.remove(position);
+       int[] aux=new int[assemblies2.length-1];
+       int j=0;
+       for(int i=0;i<assemblies2.length;i++){
+           if(i!=position){
+               aux[j]=assemblies2[i];
+           }
+           j++;
+       }
+       assemblies2=aux;
 
     }
     public List<Assemblies2> GetAssembly(){
         return  assemblies;
-
-    }
-    public Customers GetCustomer(){
-        return  customer;
 
     }
 }
@@ -148,7 +180,7 @@ Spinner nuevocliente;
  Toolbar toolbar;
 NuevaOrdenesAdapter adapter;
     ArrayAdapter<String> catClientes;
-
+int tipo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,14 +199,35 @@ NuevaOrdenesAdapter adapter;
         catClientes.add("Todos");
         catClientes.addAll(customersDao.getAllCustomerCat());
         nuevocliente.setAdapter(catClientes);
-        nuevocliente.setSelection(0);
+
         if(savedInstanceState!=null){
             nuevocliente.setSelection(savedInstanceState.getInt("ClienteId"));
-        }
-     //   final AssembliesDao assembliesDao = db.assembliesDao();
-     //   nuevaorden.setAdapter(new NuevaOrdenesAdapter(null,null));
-     //   nuevaorden.setLayoutManager(new LinearLayoutManager(this));
+            if(savedInstanceState.getInt("tipo")==1){
+                int newas=savedInstanceState.getInt("ENSAMBLE");
+                int[] aux=new int[savedInstanceState.getIntArray("assemblies").length+1];
+for (int i=0;i<savedInstanceState.getIntArray("assemblies").length;i++){
+    aux[i]=savedInstanceState.getIntArray("assemblies")[i];
+}
+                aux[savedInstanceState.getIntArray("assemblies").length]=newas;
 
+                nuevaorden.setAdapter(new NuevaOrdenesAdapter(aux));
+            }else{
+                if(savedInstanceState.getIntArray("assemblies").length>0){
+                    nuevaorden.setAdapter(new NuevaOrdenesAdapter(savedInstanceState.getIntArray("assemblies")));
+                }else{
+                    int[] auxxx=new int[0];
+                    nuevaorden.setAdapter(new NuevaOrdenesAdapter(auxxx));
+
+                }
+            }
+        }else{
+            tipo=0;
+            nuevocliente.setSelection(0);
+            int[] auxxx=new int[0];
+            nuevaorden.setAdapter(new NuevaOrdenesAdapter(auxxx));
+
+
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -189,12 +242,38 @@ NuevaOrdenesAdapter adapter;
                 Intent customersScreen = new Intent(NuevaOrden.this, NuevoEnsamble.class);
                 Bundle parametros = new Bundle();
                 parametros.putInt("ClienteId",nuevocliente.getSelectedItemPosition());
+               // if(adapter.assemblies2.length>0){
+               //     parametros.putInt("tipo",1);
+               //     parametros.putIntArray("assemblies",adapter.assemblies2);
+               // }else{
+                    parametros.putInt("tipo",0);
+               // }
                 customersScreen.putExtras(parametros);
                 startActivity(customersScreen);
                 finish();
                 return true;
             case R.id.save_btn:
-
+                if(adapter.assemblies2.length==0){
+                    return true;
+                }
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+                builder.setMessage("Seguro que desea agregar esta orden?.")
+                        .setTitle("Guardar");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        adapter.addOrder(3,adapter.assemblies2);
+                        Intent customersScreen = new Intent(NuevaOrden.this, Orders.class);
+                        Bundle parametros = new Bundle();
+                        startActivity(customersScreen);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
                 return true;
             default:
                 return true;
@@ -228,11 +307,11 @@ NuevaOrdenesAdapter adapter;
             case 0:
                   AlertDialog.Builder builder = new AlertDialog.Builder(this);
                   builder.setMessage("Seguro que desea eliminar este ensamble de la orden?")
-                          .setTitle("Eliminar Usuario");
+                          .setTitle("Eliminar assembly");
                   builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                       public void onClick(DialogInterface dialog, int id) {
                           adapter.deleteAssembly(item.getGroupId());
-                          adapter = new NuevaOrdenesAdapter(adapter.GetCustomer(),adapter.GetAssembly());
+                          adapter = new NuevaOrdenesAdapter(adapter.assemblies2);
                           nuevaorden.setAdapter(adapter);
                       }
                   });
@@ -243,6 +322,7 @@ NuevaOrdenesAdapter adapter;
                   AlertDialog alertDialog = builder.create();
                   alertDialog.show();
                 return true;
+
             default:
                 return true;
         }
@@ -251,13 +331,25 @@ NuevaOrdenesAdapter adapter;
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("ClienteId", nuevocliente.getSelectedItemPosition());
-    }
+        if(tipo==0){
+            outState.putInt("tipo",0);
+
+        }else{
+            outState.putInt("tipo",1);
+            outState.putIntArray("assemblies",adapter.assemblies2);
+        }
+       }
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState);
         nuevocliente.setSelection(savedInstanceState.getInt("ClienteId"));
+        tipo= savedInstanceState.getInt("tipo");
+        if(tipo==1){
+            adapter= new NuevaOrdenesAdapter(savedInstanceState.getIntArray("assemblies"));
+            nuevaorden.setAdapter(adapter);
 
-        //Evita que se abra el edittext apenas abre el activity
+        }
+         //Evita que se abra el edittext apenas abre el activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 }
