@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.facebook.stetho.Stetho;
+
 public class MainActivity extends AppCompatActivity {
   ImageButton productos_btn;
   ImageButton ensambles_btn;
@@ -16,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Stetho.initializeWithDefaults(this);
 
         productos_btn=findViewById(R.id.productos_button);
         productos_btn.setOnClickListener(new View.OnClickListener() {

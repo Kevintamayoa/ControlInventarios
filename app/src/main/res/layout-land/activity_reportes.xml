@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_faltantes"
+            android:tooltipText="Productos faltantes"
             android:backgroundTint="@android:color/transparent"
             android:text="Ordenes"/>
 
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
+            android:tooltipText="Simulacion de Confirmaciones"
             android:src="@drawable/icon_confirmar"
             android:text="Ordenes" />
 
@@ -43,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_resumen"
+            android:tooltipText="Resumen de ventas"
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
             android:text="Ordenes"/>
