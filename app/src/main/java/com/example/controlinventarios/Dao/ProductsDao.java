@@ -12,7 +12,7 @@ public interface ProductsDao {
     @Query("SELECT * FROM products p WHERE LOWER(p.description) LIKE LOWER('%'||:text||'%') ORDER BY p.description")
     public List<Products> getAllProductsByDescription(String text);
 
-    @Query("SELECT * FROM products p WHERE p.category_id = :category AND p.description LIKE '%'||:text||'%' ORDER BY p.description")
+    @Query("SELECT * FROM products p WHERE p.category_id = :category AND LOWER(p.description) LIKE LOWER('%'||:text||'%') ORDER BY p.description")
     public List<Products> getProductsByCategoryAndDescription(int category,String text);
 
     @Query("SELECT B.id as id,B.category_id as category_id,b.description as description,B.price as price,A.qty as qty FROM assembly_products A INNER JOIN products B ON(A.product_id=B.id) WHERE A.id=:id ")
