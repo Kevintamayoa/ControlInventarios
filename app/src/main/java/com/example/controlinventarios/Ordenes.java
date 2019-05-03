@@ -192,7 +192,26 @@ class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHolder> {
      assembliesDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         detailsDialog.show();
     }
-
+    public void cancelOrden(final int position) {
+        Orders order=orders.get(position);
+        order.setStatus_id(1);
+        AppDatabase.getAppDatabase(context).ordersDao().UpdateOrder(order);
+    }
+    public void confirmarOrden(final int position) {
+        Orders order=orders.get(position);
+        order.setStatus_id(2);
+        AppDatabase.getAppDatabase(context).ordersDao().UpdateOrder(order);
+    }
+    public void transitoOrden(final int position) {
+        Orders order=orders.get(position);
+        order.setStatus_id(3);
+        AppDatabase.getAppDatabase(context).ordersDao().UpdateOrder(order);
+    }
+    public void finalizarOrden(final int position) {
+        Orders order=orders.get(position);
+        order.setStatus_id(4);
+        AppDatabase.getAppDatabase(context).ordersDao().UpdateOrder(order);
+    }
 
 }
 ////////////////////
@@ -209,6 +228,8 @@ public class Ordenes extends AppCompatActivity {
     final int mes = c.get(Calendar.MONTH);
     final int dia = c.get(Calendar.DAY_OF_MONTH);
     final int anio = c.get(Calendar.YEAR);
+
+
 
     //Widgets
     EditText inicio_date_text;
@@ -320,6 +341,42 @@ public class Ordenes extends AppCompatActivity {
         toolbar = findViewById(R.id.ordenes_toolbar);
         setSupportActionBar(toolbar);
     }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("Cliente", clients_spinner.getSelectedItemPosition());
+        AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+        OrdersDao ordersDao  = db.ordersDao();
+        CustomersDao customersDao  = db.customersDao();
+        int o = 0;
+        ArrayList<Integer> aux = new ArrayList<Integer>();
+        for (StateVO obj :  myAdapter.listState) {
+            if (obj.isSelected()) {
+                aux.add(o);
+            }
+            o++;
+        }
+        int[] aux2=new int[aux.size()];
+        for (int i=0;i<aux.size();i++){
+            aux2[i]=aux.get(i);
+        }
+        outState.putIntArray("Opciones",aux2);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+
+        clients_spinner.setSelection(savedInstanceState.getInt("Cliente"));
+        int[] aux2=savedInstanceState.getIntArray("Opciones");
+        int o = 0;
+        for(int i=0;i<aux2.length;i++){
+            myAdapter.listState.get(i).setSelected(true);
+        }
+        state_spinner.setAdapter(myAdapter);
+        //Evita que se abra el edittext apenas abre el activity
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
     private void obtenerFecha(){
         if(!inicio_check.isChecked()){
             return;
@@ -430,7 +487,8 @@ public class Ordenes extends AppCompatActivity {
     }
     @Override
     public boolean onContextItemSelected(final MenuItem item) {
-
+        AlertDialog.Builder builder;
+        AlertDialog alertDialog;
         switch (item.getItemId()) {
             case 0:
                 adapter.ordensDetails(item.getGroupId());
@@ -439,46 +497,73 @@ public class Ordenes extends AppCompatActivity {
 
                 return true;
             case 2:
-            //    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            //    builder.setMessage("Seguro que desea eliminar este usuario?")
-            //            .setTitle("Eliminar Usuario");
-            //    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            //        public void onClick(DialogInterface dialog, int id) {
-            //            adapter.deleteCustomer(item.getGroupId());
-            //            AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
-            //            CustomersDao customersDao = db.customersDao();
-            //            switch (busquedaspinner.getSelectedItemPosition()) {
-            //                case 0:
-            //                    adapter = new CustomerAdapter(customersDao.getCustomersByFirstName(buscartext.getText().toString()));
-            //                    customerRecycler.setAdapter(adapter);
-            //                    break;
-            //                case 1:
-            //                    adapter = new CustomerAdapter(customersDao.getCustomersByLastName(buscartext.getText().toString()));
-            //                    customerRecycler.setAdapter(adapter);
-            //                    break;
-            //                case 2:
-            //                    adapter = new CustomerAdapter(customersDao.getCustomerByAdress(buscartext.getText().toString()));
-            //                    customerRecycler.setAdapter(adapter);
-            //                    break;
-            //                case 3:
-            //                    adapter = new CustomerAdapter(customersDao.getCustomerByTelephone(buscartext.getText().toString()));
-            //                    customerRecycler.setAdapter(adapter);
-            //                    break;
-            //                case 4:
-            //                    adapter = new CustomerAdapter(customersDao.getCustomerByEmail(buscartext.getText().toString()));
-            //                    customerRecycler.setAdapter(adapter);
-            //                    break;
-            //                default:
-            //                    break;
-            //            }
-            //        }
-            //    });
-            //    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            //        public void onClick(DialogInterface dialog, int id) {
-            //        }
-            //    });
-            //    AlertDialog alertDialog = builder.create();
-            //    alertDialog.show();
+                builder = new AlertDialog.Builder(this);
+               builder.setMessage("Seguro que desea cancelar esta orden?")
+                       .setTitle("Cancelar orden");
+               builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       adapter.cancelOrden(item.getGroupId());
+                       ordenesRecycler.setAdapter(adapter);
+
+                   }
+               });
+               builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                   }
+               });
+               alertDialog = builder.create();
+               alertDialog.show();
+                return true;
+            case 3:
+                builder = new AlertDialog.Builder(this);
+                builder.setMessage("Seguro que desea confirmar esta orden?")
+                        .setTitle("Confirmar orden");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        adapter.confirmarOrden(item.getGroupId());
+                        ordenesRecycler.setAdapter(adapter);
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                alertDialog = builder.create();
+                alertDialog.show();
+                return true;
+            case 4:
+                builder = new AlertDialog.Builder(this);
+                builder.setMessage("Seguro que desea poner en tránsito esta orden?")
+                        .setTitle("Tránsito de orden");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        adapter.transitoOrden(item.getGroupId());
+                        ordenesRecycler.setAdapter(adapter);
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                alertDialog = builder.create();
+                alertDialog.show();
+                return true;
+            case 5:
+                builder = new AlertDialog.Builder(this);
+                builder.setMessage("Seguro que terminar esta orden?")
+                        .setTitle("Término de orden");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        adapter.finalizarOrden(item.getGroupId());
+                        ordenesRecycler.setAdapter(adapter);
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                alertDialog = builder.create();
+                alertDialog.show();
                 return true;
             default:
                 return true;

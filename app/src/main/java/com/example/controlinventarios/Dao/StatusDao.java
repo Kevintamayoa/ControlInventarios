@@ -14,4 +14,5 @@ public interface StatusDao {
 
     @Query("SELECT description FROM order_status ORDER BY id")
     public List<String> getStatusList();
+
 }

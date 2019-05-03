@@ -9,7 +9,7 @@
     android:background="#FAF5DE"
     tools:context=".NuevaOrden">
     <android.support.v7.widget.Toolbar
-        android:id="@+id/nuevaorden_toolbar"
+        android:id="@+id/nuevaensambles_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFCF8E"

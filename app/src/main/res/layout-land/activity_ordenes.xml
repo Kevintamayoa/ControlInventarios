@@ -35,18 +35,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
                 android:layout_marginBottom="9dp"
-                >
+                android:gravity="center">
 
                 <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="Estado:" />
 
                 <Spinner
                     android:id="@+id/orden_state_spinner"
-                    android:layout_width="150dp"
+                    android:layout_width="140dp"
                     android:layout_height="match_parent" />
 
             </LinearLayout>
@@ -55,61 +55,67 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
-                android:gravity="left">
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="Cliente:" />
 
                 <Spinner
                     android:id="@+id/orden_client_spinner"
-                    android:layout_width="150dp"
+                    android:layout_width="140dp"
                     android:layout_height="match_parent" />
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginBottom="9dp"
-                android:orientation="horizontal"
-              >
+                android:gravity="center">
                 <CheckBox
                     android:id="@+id/inicio_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <DatePicker
+                <ImageButton
                     android:id="@+id/inicio_date"
-                    android:layout_width="match_parent"
-                    android:foreground="@android:color/transparent"
-                    android:datePickerMode="calendar"
-                    android:calendarTextColor="@android:color/black"
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_height="match_parent"></DatePicker>
-            </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="9dp"
-                    android:orientation="horizontal"
-                    >
-                <CheckBox
-                    android:id="@+id/final_check"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <DatePicker
-                    android:id="@+id/final_date"
-                    android:layout_width="match_parent"
-                    android:foreground="@android:color/transparent"
-                    android:datePickerMode="calendar"
-                    android:calendarTextColor="@android:color/black"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_calendar"
+                    android:background="@android:color/transparent"/>
+                <EditText
+                    android:id="@+id/inicio_date_text"
+                    android:layout_width="120dp"
+                    android:textSize="30px"
+                    android:layout_height="match_parent"
+                    android:enabled="false"/>
 
-                    android:layout_height="match_parent"></DatePicker>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="9dp"
+                android:gravity="center">
+            <CheckBox
+                android:id="@+id/final_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageButton
+                android:id="@+id/final_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_calendar"
+                android:background="@android:color/transparent"
+                />
+            <EditText
+                android:id="@+id/final_date_text"
+                android:layout_width="120dp"
+                android:textSize="30px"
+                android:layout_height="match_parent"
+                android:enabled="false"/>
 
-                </LinearLayout>
-
-
-
+        </LinearLayout>
 
         </LinearLayout>
 

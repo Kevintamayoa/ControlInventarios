@@ -3,6 +3,7 @@ package com.example.controlinventarios;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.usage.NetworkStats;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -138,16 +140,22 @@ public class NuevoEnsamble extends AppCompatActivity {
     EditText Buscartext;
     RecyclerView ensamblesrecyvle;
     int clienteid;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_ensamble);
+        //Evita que se abra el edittext apenas abre el activity
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         if(savedInstanceState!=null){
             clienteid=savedInstanceState.getInt("ClienteId");
+
         }
            Buscartext=findViewById(R.id.buscarensambles_text);
            ensamblesrecyvle=findViewById(R.id.nuevo_assemblies_recycleview);
-
+           toolbar=findViewById(R.id.nuevaensambles_toolbar);
+           setSupportActionBar(toolbar);
            AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
            final ProductCategoriesDao pcDao = db.productCategoriesDao();
            final AssembliesDao assembliesDao = db.assembliesDao();
@@ -165,7 +173,9 @@ public class NuevoEnsamble extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.search_btn:
-               adapter.ordensDetails(item.getGroupId());
+              final   AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+                final AssembliesDao assembliesDao = db.assembliesDao();
+                ensamblesrecyvle.setAdapter(new NuevoProductsAdapter( assembliesDao.getAllAssemblies(Buscartext.getText().toString())));
                 return true;
 
             default:
@@ -185,12 +195,13 @@ public class NuevoEnsamble extends AppCompatActivity {
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
                 builder.setMessage("Seguro que desea agregar este ensamble a la orden?.")
                         .setTitle("Saliendo Sin Guardar");
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent customersScreen = new Intent(NuevoEnsamble.this, NuevaOrden.class);
                         Bundle parametros = new Bundle();
-                 //       parametros.putInt("ENSAMBLE",adapter.assemblies.get(item.getGroupId()).getId());
-                 //       parametros.putInt("ClienteId",clienteid);
+                        int aux=item.getGroupId();
+                        parametros.putInt("ENSAMBLE",aux);
+                        parametros.putInt("ClienteId",clienteid);
                         customersScreen.putExtras(parametros);
                         startActivity(customersScreen);
                         finish();
@@ -216,7 +227,7 @@ public class NuevoEnsamble extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 Intent customersScreen = new Intent(NuevoEnsamble.this, NuevaOrden.class);
                 Bundle parametros = new Bundle();
-             //    parametros.putInt("ClienteId",clienteid);
+                parametros.putInt("ClienteId",clienteid);
                 customersScreen.putExtras(parametros);
                 startActivity(customersScreen);
                 finish();
@@ -233,11 +244,17 @@ public class NuevoEnsamble extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.getInt("ClienteId", clienteid);
+        outState.putInt("ClienteId", clienteid);
+        outState.putString("Buscar", Buscartext.getText().toString());
           }
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState);
      clienteid = savedInstanceState.getInt("ClienteId");
+        final   AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+        final AssembliesDao assembliesDao = db.assembliesDao();
+        ensamblesrecyvle.setAdapter(new NuevoProductsAdapter( assembliesDao.getAllAssemblies(savedInstanceState.getString("Buscar"))));
+        //Evita que se abra el edittext apenas abre el activity
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 }

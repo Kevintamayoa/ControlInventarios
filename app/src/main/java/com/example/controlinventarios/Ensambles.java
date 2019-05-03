@@ -192,7 +192,7 @@ public class Ensambles extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
         final AssembliesDao assembliesDao = db.assembliesDao();
-        ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString()),null));
+        ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString())));
         ensamblesrecycler.setLayoutManager(new LinearLayoutManager(this));
     }
 }

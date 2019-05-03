@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -31,6 +32,7 @@ import com.example.controlinventarios.Dao.ProductsDao;
 import com.example.controlinventarios.Dao.StatusDao;
 import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Assemblies;
+import com.example.controlinventarios.db.Assemblies2;
 import com.example.controlinventarios.db.Customers;
 import com.example.controlinventarios.db.Orders;
 
@@ -48,7 +50,7 @@ class NuevaOrdenesAdapter extends RecyclerView.Adapter<NuevaOrdenesAdapter.ViewH
         private TextView txtPrice;
 
         private Orders order;
-        private Assemblies assembly;
+        private Assemblies2 assembly;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -58,7 +60,7 @@ class NuevaOrdenesAdapter extends RecyclerView.Adapter<NuevaOrdenesAdapter.ViewH
             txtQuantity = itemView.findViewById(R.id.assembly_quantity);
         }
 
-        public void bind(Assemblies assembly) {
+        public void bind(Assemblies2 assembly) {
             this.assembly = assembly;
             NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
             formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
@@ -69,13 +71,13 @@ class NuevaOrdenesAdapter extends RecyclerView.Adapter<NuevaOrdenesAdapter.ViewH
             txtQuantity.setText(aux2);
         }
     }
-    private List<Assemblies> assemblies;
+    List<Assemblies2> assemblies;
     Customers customer;
     List<Customers> customers;
     private List<Orders> orders;
     Dialog assembliesDialog;
     private Orders order;
-    public NuevaOrdenesAdapter(Customers customer,List<Assemblies> assemblies) {
+    public NuevaOrdenesAdapter(Customers customer,List<Assemblies2> assemblies) {
         this.customer = customer;
         this.assemblies=assemblies;
     }
@@ -116,12 +118,19 @@ class NuevaOrdenesAdapter extends RecyclerView.Adapter<NuevaOrdenesAdapter.ViewH
 
     Dialog detailsDialog;
 
+    public void addAssembly(final int id){
+        AppDatabase db = AppDatabase.getAppDatabase(this.context);
+        AssembliesDao assemblies2 = db.assembliesDao();
+
+        assemblies.add(assemblies2.getAssemblyById(id));
+
+    }
 
     public void deleteAssembly(final int position){
        assemblies.remove(position);
 
     }
-    public List<Assemblies> GetAssembly(){
+    public List<Assemblies2> GetAssembly(){
         return  assemblies;
 
     }
@@ -160,7 +169,7 @@ NuevaOrdenesAdapter adapter;
         nuevocliente.setAdapter(catClientes);
         nuevocliente.setSelection(0);
         if(savedInstanceState!=null){
-            adapter.customer=customersDao.getAllCustomer().get(savedInstanceState.getInt("ClienteId"));
+            nuevocliente.setSelection(savedInstanceState.getInt("ClienteId"));
         }
      //   final AssembliesDao assembliesDao = db.assembliesDao();
      //   nuevaorden.setAdapter(new NuevaOrdenesAdapter(null,null));
@@ -179,7 +188,7 @@ NuevaOrdenesAdapter adapter;
             case R.id.add_btn:
                 Intent customersScreen = new Intent(NuevaOrden.this, NuevoEnsamble.class);
                 Bundle parametros = new Bundle();
-//                parametros.putInt("ClienteId",adapter.customers.get(item.getGroupId()).getId());
+                parametros.putInt("ClienteId",nuevocliente.getSelectedItemPosition());
                 customersScreen.putExtras(parametros);
                 startActivity(customersScreen);
                 finish();
@@ -237,5 +246,18 @@ NuevaOrdenesAdapter adapter;
             default:
                 return true;
         }
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("ClienteId", nuevocliente.getSelectedItemPosition());
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        nuevocliente.setSelection(savedInstanceState.getInt("ClienteId"));
+
+        //Evita que se abra el edittext apenas abre el activity
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 }
