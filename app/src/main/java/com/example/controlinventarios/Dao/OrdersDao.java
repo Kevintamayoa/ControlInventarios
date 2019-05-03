@@ -22,7 +22,7 @@ public interface OrdersDao {
     @Query("SELECT id as id,status_id as status_id,customer_id as customer_id,date as date,(case when change_log is null then ' ' else change_log end) as change_log FROM orders WHERE status_id IN (:list) AND customer_id=:customer_id")
     public List<Orders> getAllOrdersByStatusId(int[] list, int customer_id);
 
-    @Query(" SELECT * FROM orders o WHERE status_id IN (:list) AND date(substr(o.date,7,4)||'-'||substr(o.date,4,2)||'-'||substr(o.date,1,2))>=date(:DateIn)")
+    @Query(" SELECT * FROM orders o WHERE status_id IN (:list) AND date(substr(o.date,7,4)||'-'||substr(o.date,4,2)||'-'||substr(o.date,1,2))>=date(substr(:DateIn,7,4)||'-'||substr(:DateIn,4,2)||'-'||substr(:DateIn,1,2))")
     public List<Orders> getAllOrdersByDateIn(int[] list,String DateIn);
     @Query(" SELECT * FROM orders o WHERE status_id IN (:list) AND date(substr(o.date,7,4)||'-'||substr(o.date,4,2)||'-'||substr(o.date,1,2))<=date(:DateIn)")
     public List<Orders> getAllOrdersByDateEnd(int[] list,String DateIn);

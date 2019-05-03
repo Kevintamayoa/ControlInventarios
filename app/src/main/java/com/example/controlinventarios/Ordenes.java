@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ import com.example.controlinventarios.db.Assemblies2;
 import com.example.controlinventarios.db.Customers;
 import com.example.controlinventarios.db.Orders;
 
+import java.io.Console;
 import java.text.DateFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHolder> {
         private TextView txtQuantity;
         private TextView txtPrice;
         private TextView txtDate;
+
         private TextView txtState;
         private Orders order;
         public ViewHolder(@NonNull final View itemView) {
@@ -219,7 +222,7 @@ public class Ordenes extends AppCompatActivity {
 
     private static final String CERO = "0";
     private static final String BARRA = "/";
-
+    public String ClienteId = "ClienteId";
     //Calendario para obtener fecha & hora
     public final Calendar c = Calendar.getInstance();
 
@@ -368,11 +371,56 @@ public class Ordenes extends AppCompatActivity {
 
         clients_spinner.setSelection(savedInstanceState.getInt("Cliente"));
         int[] aux2=savedInstanceState.getIntArray("Opciones");
-        int o = 0;
-        for(int i=0;i<aux2.length;i++){
-            myAdapter.listState.get(i).setSelected(true);
+       // int o = 0;
+       // for (StateVO obj :  myAdapter.listState) {
+       //     if (obj.isSelected()) {
+       //         aux.add(o);
+       //     }
+       //     o++;
+       // }
+
+        ArrayList<StateVO> listVOs = new ArrayList<>();
+        ArrayAdapter<String> catStatus= new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
+        StatusDao statusDao = db.statusDao();
+        catStatus.add("Selecciona los estatus:");
+        catStatus.addAll(statusDao.getStatusList());
+        for (int i = 0; i < catStatus.getCount(); i++) {
+            StateVO stateVO = new StateVO();
+            stateVO.setTitle(catStatus.getItem(i));
+            stateVO.setSelected(false);
+            for(int j=0;j<aux2.length;j++){
+                if(aux2[j]==i){
+                    stateVO.setSelected(true);
+            }}
+
+
+            listVOs.add(stateVO);
         }
+        myAdapter = new MyAdapter(Ordenes.this, 0,
+                listVOs);
         state_spinner.setAdapter(myAdapter);
+        OrdersDao ordersDao  = db.ordersDao();
+        CustomersDao customersDao  = db.customersDao();
+
+
+
+        if(clients_spinner.getSelectedItemPosition()==0&&!final_check.isChecked()&&!inicio_check.isChecked()){
+
+            adapter =new OrdenesAdapter(ordersDao.getAllOrdersByStatusId(aux2),customersDao.getAllCustomer());
+            ordenesRecycler.setAdapter(adapter);
+        }else if(!final_check.isChecked()&&!inicio_check.isChecked()){
+            adapter =new OrdenesAdapter(ordersDao.getAllOrdersByStatusId(aux2,adapter.customers.get(clients_spinner.getSelectedItemPosition()-1).getId()),customersDao.getAllCustomer());
+            ordenesRecycler.setAdapter(adapter);
+        }
+        else{
+            if(!final_check.isChecked()){
+
+            }else if(!inicio_check.isChecked()){
+
+            }else{
+
+            }
+        }
         //Evita que se abra el edittext apenas abre el activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
@@ -441,7 +489,9 @@ public class Ordenes extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add_btn:
                 Intent newCustomer = new Intent(Ordenes.this, NuevaOrden.class);
-                newCustomer.putExtra("PURPOSE",0);
+                Bundle parametros = new Bundle();
+                 parametros.putInt("ClienteId",0);
+                newCustomer.putExtras(parametros);
                 startActivity(newCustomer);
                 finish();
                 return true;
@@ -461,25 +511,27 @@ public class Ordenes extends AppCompatActivity {
                 for (int i=0;i<aux.size();i++){
                     aux2[i]=aux.get(i);
                 }
-                if(clients_spinner.getSelectedItemPosition()==0&&!final_check.isChecked()&&!inicio_check.isChecked()){
 
-                    adapter =new OrdenesAdapter(ordersDao.getAllOrdersByStatusId(aux2),customersDao.getAllCustomer());
-                     ordenesRecycler.setAdapter(adapter);
-                }else if(!final_check.isChecked()&&!inicio_check.isChecked()){
-                    adapter =new OrdenesAdapter(ordersDao.getAllOrdersByStatusId(aux2,adapter.customers.get(clients_spinner.getSelectedItemPosition()-1).getId()),customersDao.getAllCustomer());
-                    ordenesRecycler.setAdapter(adapter);
-                }
-                else{
-                    if(!final_check.isChecked()){
 
-                    }else if(!inicio_check.isChecked()){
+               if(clients_spinner.getSelectedItemPosition()==0&&!final_check.isChecked()&&!inicio_check.isChecked()){
 
-                    }else{
+                   adapter =new OrdenesAdapter(ordersDao.getAllOrdersByStatusId(aux2),customersDao.getAllCustomer());
+                   ordenesRecycler.setAdapter(adapter);
+               }else if(!final_check.isChecked()&&!inicio_check.isChecked()){
+                   adapter =new OrdenesAdapter(ordersDao.getAllOrdersByStatusId(aux2,adapter.customers.get(clients_spinner.getSelectedItemPosition()-1).getId()),customersDao.getAllCustomer());
+                   ordenesRecycler.setAdapter(adapter);
+               }
+               else{
+                   if(!final_check.isChecked()){
 
-                    }
-                }
+                   }else if(!inicio_check.isChecked()){
 
-                       return true;
+                   }else{
+
+                   }
+               }
+               ordenesRecycler.setAdapter(adapter);
+                return true;
           default:
                 return true;
         }

@@ -141,6 +141,9 @@ public class NuevoEnsamble extends AppCompatActivity {
     RecyclerView ensamblesrecyvle;
     int clienteid;
     int[] assemblies2;
+    public String ClienteId = "ClienteId";
+    public String TIPOS = "TIPOS";
+    public String assemblies = "assemblies";
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +154,7 @@ public class NuevoEnsamble extends AppCompatActivity {
 
         if(savedInstanceState!=null){
             clienteid=savedInstanceState.getInt("ClienteId");
-            if(savedInstanceState.getInt("tipo")==1){
+            if(savedInstanceState.getInt("TIPOS")==1){
                 assemblies2=savedInstanceState.getIntArray("assemblies");
             }
           }
@@ -204,7 +207,7 @@ adapter=new NuevoProductsAdapter( assembliesDao.getAllAssemblies(Buscartext.getT
                         Bundle parametros = new Bundle();
                         int aux=item.getGroupId();
                         parametros.putInt("ENSAMBLE",aux);
-                        parametros.putInt("tipo",1);
+                        parametros.putInt("TIPOS",1);
                         parametros.putInt("ClienteId",clienteid);
                         customersScreen.putExtras(parametros);
                         startActivity(customersScreen);

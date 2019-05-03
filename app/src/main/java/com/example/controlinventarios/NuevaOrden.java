@@ -180,7 +180,11 @@ Spinner nuevocliente;
  Toolbar toolbar;
 NuevaOrdenesAdapter adapter;
     ArrayAdapter<String> catClientes;
+    public String ClienteId = "ClienteId";
+    public String TIPOS = "TIPOS";
+    public String assemblies = "assemblies";
 int tipo;
+    int tipos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -199,35 +203,38 @@ int tipo;
         catClientes.add("Todos");
         catClientes.addAll(customersDao.getAllCustomerCat());
         nuevocliente.setAdapter(catClientes);
+tipos=0;
+  if(savedInstanceState!=null){
+    int indexcl=savedInstanceState.getInt("ClienteId");
+      tipos=indexcl;
+    nuevocliente.setSelection(indexcl);
+      if(savedInstanceState.getInt("TIPOS")==1){
 
-        if(savedInstanceState!=null){
-            nuevocliente.setSelection(savedInstanceState.getInt("ClienteId"));
-            if(savedInstanceState.getInt("tipo")==1){
-                int newas=savedInstanceState.getInt("ENSAMBLE");
-                int[] aux=new int[savedInstanceState.getIntArray("assemblies").length+1];
-for (int i=0;i<savedInstanceState.getIntArray("assemblies").length;i++){
-    aux[i]=savedInstanceState.getIntArray("assemblies")[i];
-}
-                aux[savedInstanceState.getIntArray("assemblies").length]=newas;
+          int newas=savedInstanceState.getInt("ENSAMBLE");
+          int[] aux=new int[savedInstanceState.getIntArray("assemblies").length+1];
+          for (int i=0;i<savedInstanceState.getIntArray("assemblies").length;i++){
+              aux[i]=savedInstanceState.getIntArray("assemblies")[i];
+          }
+          aux[savedInstanceState.getIntArray("assemblies").length]=newas;
 
-                nuevaorden.setAdapter(new NuevaOrdenesAdapter(aux));
-            }else{
-                if(savedInstanceState.getIntArray("assemblies").length>0){
-                    nuevaorden.setAdapter(new NuevaOrdenesAdapter(savedInstanceState.getIntArray("assemblies")));
-                }else{
-                    int[] auxxx=new int[0];
-                    nuevaorden.setAdapter(new NuevaOrdenesAdapter(auxxx));
+          nuevaorden.setAdapter(new NuevaOrdenesAdapter(aux));
+      }else{
+         // if(savedInstanceState.getIntArray("assemblies").length>0){
+              nuevaorden.setAdapter(new NuevaOrdenesAdapter(savedInstanceState.getIntArray("assemblies")));
+        // }else{
+        //     int[] auxxx=new int[0];
+        //     nuevaorden.setAdapter(new NuevaOrdenesAdapter(auxxx));
 
-                }
-            }
-        }else{
-            tipo=0;
-            nuevocliente.setSelection(0);
-            int[] auxxx=new int[0];
-            nuevaorden.setAdapter(new NuevaOrdenesAdapter(auxxx));
+        // }
+      }
+  }else{
+      tipo=0;
+      nuevocliente.setSelection(0);
+      int[] auxxx=new int[0];
+      nuevaorden.setAdapter(new NuevaOrdenesAdapter(auxxx));
 
 
-        }
+  }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -237,23 +244,24 @@ for (int i=0;i<savedInstanceState.getIntArray("assemblies").length;i++){
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.add_btn:
                 Intent customersScreen = new Intent(NuevaOrden.this, NuevoEnsamble.class);
                 Bundle parametros = new Bundle();
                 parametros.putInt("ClienteId",nuevocliente.getSelectedItemPosition());
-               // if(adapter.assemblies2.length>0){
-               //     parametros.putInt("tipo",1);
-               //     parametros.putIntArray("assemblies",adapter.assemblies2);
-               // }else{
-                    parametros.putInt("tipo",0);
-               // }
+                if(tipos==1){
+                    parametros.putInt("tipo",1);
+                    parametros.putIntArray("assemblies",adapter.assemblies2);
+                }else{
+                  parametros.putInt("tipo",0);
+                }
                 customersScreen.putExtras(parametros);
                 startActivity(customersScreen);
                 finish();
                 return true;
             case R.id.save_btn:
-                if(adapter.assemblies2.length==0){
+                if(tipos==0){
                     return true;
                 }
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
@@ -331,6 +339,7 @@ for (int i=0;i<savedInstanceState.getIntArray("assemblies").length;i++){
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("ClienteId", nuevocliente.getSelectedItemPosition());
+        outState.putInt("TIPOS",tipos);
         if(tipo==0){
             outState.putInt("tipo",0);
 
@@ -344,6 +353,7 @@ for (int i=0;i<savedInstanceState.getIntArray("assemblies").length;i++){
         super.onRestoreInstanceState(savedInstanceState);
         nuevocliente.setSelection(savedInstanceState.getInt("ClienteId"));
         tipo= savedInstanceState.getInt("tipo");
+        tipos= savedInstanceState.getInt("TIPOS");
         if(tipo==1){
             adapter= new NuevaOrdenesAdapter(savedInstanceState.getIntArray("assemblies"));
             nuevaorden.setAdapter(adapter);
