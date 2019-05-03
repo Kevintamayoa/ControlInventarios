@@ -43,7 +43,9 @@
             android:src="@drawable/icon_reportes"
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
-            android:text="Productos"/>
+            android:text="Productos"
+            android:tooltipText="Productos"
+            />
 
         <Space
             android:layout_width="20dp"
@@ -55,7 +57,8 @@
             android:gravity="center"
             android:src="@drawable/icon_ensambles"
             android:backgroundTint="@android:color/transparent"
-            android:text="Ensambles"/>
+            android:text="Ensambles"
+            android:tooltipText="Ensambles"/>
 
     </LinearLayout>
     <LinearLayout
@@ -70,7 +73,8 @@
             android:src="@drawable/icon_clientes"
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
-            android:text="Clientes"/>
+            android:text="Clientes"
+            android:tooltipText="Clientes"/>
 
         <Space
             android:layout_width="20dp"
@@ -82,7 +86,8 @@
             android:src="@drawable/icon_ordenes"
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
-            android:text="Ordenes"/>
+            android:text="Ordenes"
+            android:tooltipText="Ordenes"/>
 
     </LinearLayout>
     <LinearLayout
@@ -97,7 +102,8 @@
             android:backgroundTint="@android:color/transparent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Reportes"/>
+            android:text="Reportes"
+            android:tooltipText="Reportes"/>
 
         <Space
             android:layout_width="20dp"

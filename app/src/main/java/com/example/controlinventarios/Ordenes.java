@@ -151,6 +151,7 @@ class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHolder> {
     }
 
     Dialog detailsDialog;
+    List<Assemblies2> assemblies2;
 
     public void ordensDetails(int position){
         detailsDialog = new Dialog(context);
@@ -164,7 +165,7 @@ class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHolder> {
     TextView txtQty = detailsDialog.findViewById(R.id.ordenes_qty);
     TextView txtLog= detailsDialog.findViewById(R.id.ordenes_change);
     RecyclerView auxAssemblies=detailsDialog.findViewById(R.id.assemblies_recycleview2);
-    AppDatabase db = AppDatabase.getAppDatabase(context);
+    AppDatabase db = AppDatabase.getAppDatabase(detailsDialog.getContext());
     final AssembliesDao aDao = db.assembliesDao();
    final OrdersDao oDao = db.ordersDao();
         final ProductsDao pDao = db.productsDao();
@@ -184,11 +185,11 @@ class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHolder> {
      txtDate.setText(aux5);
      txtQty.setText(aux2);
    //  txtLog.setText(aux6);
-  // auxAssemblies.setLayoutManager(new LinearLayoutManager(detailsDialog.getContext()));
-   // auxAssemblies.setAdapter(null);
-  //  auxAssemblies.setAdapter(new AssambliesAdapter(aDao.getAllAssembliesByOrder(orders.get(position).getId()),pDao));//
+       //  assemblies2.add(new Assemblies2(1,"ad",4,52));
+   auxAssemblies.setLayoutManager(new LinearLayoutManager(detailsDialog.getContext()));
+   auxAssemblies.setAdapter(new AssambliesAdapter(assemblies2));//
 
-   //  assembliesDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+     assembliesDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         detailsDialog.show();
     }
 
@@ -312,7 +313,6 @@ public class Ordenes extends AppCompatActivity {
         OrdersDao ordersDao  = db.ordersDao();
 
         adapter =new OrdenesAdapter(ordersDao.getAllOrders(),customersDao.getAllCustomer());
-
         ordenesRecycler.setAdapter(adapter);
         ordenesRecycler.setLayoutManager(new LinearLayoutManager(this));
 

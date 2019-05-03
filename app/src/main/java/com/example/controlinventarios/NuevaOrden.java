@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
@@ -70,6 +71,7 @@ class NuevaOrdenesAdapter extends RecyclerView.Adapter<NuevaOrdenesAdapter.ViewH
     }
     private List<Assemblies> assemblies;
     Customers customer;
+    List<Customers> customers;
     private List<Orders> orders;
     Dialog assembliesDialog;
     private Orders order;
@@ -85,6 +87,10 @@ class NuevaOrdenesAdapter extends RecyclerView.Adapter<NuevaOrdenesAdapter.ViewH
                 .inflate(R.layout.recycle_ordenes, viewGroup, false);
         final ViewHolder viewHolder = new ViewHolder(view);
         context = viewGroup.getContext();
+        AppDatabase db = AppDatabase.getAppDatabase(this.context);
+        CustomersDao customersDao = db.customersDao();
+
+        customers=customersDao.getAllCustomer();
 
         ((Activity) viewGroup.getContext()).registerForContextMenu(view);
         viewHolder.itemProduct.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
@@ -127,21 +133,18 @@ class NuevaOrdenesAdapter extends RecyclerView.Adapter<NuevaOrdenesAdapter.ViewH
 ////////////////////
 
 public class NuevaOrden extends AppCompatActivity {
-    final String POSITION = "POSITION";
-    final String SELECTED_FILTER = "SELECTED_FILTER";
-    final String TEXT_FILTERED = "TEXT_FILTERED";
-    final int NEW_CUSTOMER = 0;
-    final int EDIT_CUSTOMER = 1;
-    final String PURPOSE = "PURPOSE";
+
     RecyclerView nuevaorden;
 Spinner nuevocliente;
  Toolbar toolbar;
 NuevaOrdenesAdapter adapter;
-
     ArrayAdapter<String> catClientes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_nueva_orden);
         nuevocliente = findViewById(R.id.nuevocliente_spinner);
         nuevaorden=findViewById(R.id.nuevo_assemblies_recycleview);
@@ -149,12 +152,20 @@ NuevaOrdenesAdapter adapter;
         setSupportActionBar(toolbar);
 
         AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
-
         CustomersDao customersDao = db.customersDao();
+        catClientes = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
+
         catClientes.add("Todos");
         catClientes.addAll(customersDao.getAllCustomerCat());
         nuevocliente.setAdapter(catClientes);
         nuevocliente.setSelection(0);
+        if(savedInstanceState!=null){
+            adapter.customer=customersDao.getAllCustomer().get(savedInstanceState.getInt("ClienteId"));
+        }
+     //   final AssembliesDao assembliesDao = db.assembliesDao();
+     //   nuevaorden.setAdapter(new NuevaOrdenesAdapter(null,null));
+     //   nuevaorden.setLayoutManager(new LinearLayoutManager(this));
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -166,9 +177,11 @@ NuevaOrdenesAdapter adapter;
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_btn:
-                Intent newCustomer = new Intent(NuevaOrden.this, NuevoEnsamble.class);
-                newCustomer.putExtra("PURPOSE",0);
-                startActivity(newCustomer);
+                Intent customersScreen = new Intent(NuevaOrden.this, NuevoEnsamble.class);
+                Bundle parametros = new Bundle();
+//                parametros.putInt("ClienteId",adapter.customers.get(item.getGroupId()).getId());
+                customersScreen.putExtras(parametros);
+                startActivity(customersScreen);
                 finish();
                 return true;
             case R.id.save_btn:
@@ -177,6 +190,27 @@ NuevaOrdenesAdapter adapter;
             default:
                 return true;
         }
+    }
+    @Override
+    public void onBackPressed() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setMessage("Salir? no se guardará ninguna información.")
+                .setTitle("Saliendo Sin Guardar");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent customersScreen = new Intent(NuevaOrden.this, Ordenes.class);
+                Bundle parametros = new Bundle();
+                customersScreen.putExtras(parametros);
+                startActivity(customersScreen);
+                finish();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
     @Override
     public boolean onContextItemSelected(final MenuItem item) {

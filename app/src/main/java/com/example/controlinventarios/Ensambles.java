@@ -66,9 +66,8 @@ class AssambliesAdapter extends RecyclerView.Adapter<AssambliesAdapter.ViewHolde
     ProductsDao pDao;
     Dialog assembliesDialog;
 
-    public AssambliesAdapter(List<Assemblies2> assemblies, ProductsDao pDao) {
+    public AssambliesAdapter(List<Assemblies2> assemblies) {
         this.assemblies = assemblies;
-        this.pDao=pDao;
     }
 
 
@@ -135,7 +134,7 @@ public class Ensambles extends AppCompatActivity {
         AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
 
         final AssembliesDao assembliesDao = db.assembliesDao();
-        ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString()),null));
+        ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString())));
         ensamblesrecycler.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -157,7 +156,7 @@ public class Ensambles extends AppCompatActivity {
 
                 AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
                 final AssembliesDao assembliesDao = db.assembliesDao();
-                ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString()),null));
+                ensamblesrecycler.setAdapter(new AssambliesAdapter( assembliesDao.getAllAssemblies(buscartext.getText().toString())));
 
                 return true;
 

@@ -43,6 +43,7 @@ public interface CustomersDao {
 
     @Query("SELECT (last_name ||', '|| first_name) FROM customers c  ORDER BY c.last_name, c.first_name")
     public List<String> getAllCustomerCat();
+
     @Query("SELECT c.id FROM customers c  ORDER BY c.last_name, c.first_name")
     public int[] getAllCustomerCatId();
 

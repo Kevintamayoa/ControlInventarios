@@ -11,7 +11,6 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity android:name=".SimulacionDeConfirmaciones"></activity>
         <activity android:name=".ResumenVentas" />
-        <activity android:name=".ConfirmarOrdenes" />
         <activity android:name=".ProductosFaltantes" />
         <activity android:name=".NuevoEnsamble" />
         <activity android:name=".NuevaOrden" />
