@@ -1,18 +1,13 @@
 package com.example.controlinventarios;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,9 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,7 +28,6 @@ import com.example.controlinventarios.Dao.ProductCategoriesDao;
 import com.example.controlinventarios.Dao.ProductsDao;
 import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Products;
-import com.facebook.stetho.Stetho;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -62,9 +54,9 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
         public void bind(Products product) {
             this.product = product;
             NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
-            formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
+            formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
 
-            String aux1 = "Precio: " +  formatoImporte.format(product.getPrice()/100);
+            String aux1 = "Precio: " + formatoImporte.format(product.getPrice() / 100);
             String aux2 = "Cantidad: " + product.getQty();
             txtDescription.setText(product.getDescription());
             txtPrice.setText(aux1);
@@ -102,11 +94,11 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
                 TextView auxqty = productDialog.findViewById(R.id.aux_productqty);
                 final ProductsDao pDao2 = AppDatabase.getAppDatabase(productDialog.getContext()).productsDao();
                 NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
-                formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en","US"));
+                formatoImporte = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
                 String categorytxt = "Categoria: " + pcDao.getProductCategory(products.get(viewHolder.getAdapterPosition()).getCategory_id());
                 String producttxt = "Nombre del producto: " + products.get(viewHolder.getAdapterPosition()).getDescription();
                 String pricetxt = "Precio: " + formatoImporte.format(products.get(viewHolder.getAdapterPosition()).getPrice() / 100);
-                String qtytxt = "Cantidad: " +pDao2.getProductById(products.get(viewHolder.getAdapterPosition()).getId()).getQty();
+                String qtytxt = "Cantidad: " + pDao2.getProductById(products.get(viewHolder.getAdapterPosition()).getId()).getQty();
                 auxcategoria.setText(categorytxt);
                 auxproducto.setText(producttxt);
                 auxprice.setText(pricetxt);
@@ -130,10 +122,9 @@ class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 ////////////////////
 
 
-
-
 public class Productos extends AppCompatActivity {
 
+    ArrayAdapter<String> pCategories;
     Toolbar toolbar;
     RecyclerView productosrecycler;
     EditText buscartext;
@@ -155,13 +146,18 @@ public class Productos extends AppCompatActivity {
         AppDatabase db = AppDatabase.getAppDatabase(this);
         final ProductCategoriesDao pcDao = db.productCategoriesDao();
         final ProductsDao productsDao = db.productsDao();
-        ArrayAdapter<String> pCategories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
+        pCategories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
         pCategories.addAll(pcDao.getProductCategories());
         pCategories.add("Todos");
         categoriaspinner.setAdapter(pCategories);
-        categoriaspinner.setSelection(pCategories.getCount() - 1);
         productosrecycler.setLayoutManager(new LinearLayoutManager(this));
-        productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+        if(categoriaspinner.getSelectedItemPosition()<pCategories.getCount()-1){
+            productosrecycler.setAdapter(new ProductsAdapter(pcDao,
+                    productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
+                            buscartext.getText().toString())));
+        }else{
+            productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+        }
         buscartext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId,
@@ -198,19 +194,36 @@ public class Productos extends AppCompatActivity {
             case R.id.search_btn:
                 final ProductCategoriesDao pcDao = AppDatabase.getAppDatabase(getApplicationContext()).productCategoriesDao();
                 final ProductsDao productsDao = AppDatabase.getAppDatabase(getApplicationContext()).productsDao();
-
-                if (categoriaspinner.getSelectedItemPosition() >= (pcDao.getProductCategories().size())) {
-                    productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
-                } else {
+                if(categoriaspinner.getSelectedItemPosition()<pCategories.getCount()-1){
                     productosrecycler.setAdapter(new ProductsAdapter(pcDao,
-                            productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(),
-                                    buscartext.getText().toString())));
+                    productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(), buscartext.getText().toString())));
+                }else{
+                    productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
                 }
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("POSITION",categoriaspinner.getSelectedItemPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        AppDatabase db = AppDatabase.getAppDatabase(this);
+        final ProductCategoriesDao pcDao = db.productCategoriesDao();
+        final ProductsDao productsDao = db.productsDao();
+        categoriaspinner.setSelection(savedInstanceState.getInt("POSITION"));
+        if(categoriaspinner.getSelectedItemPosition()<pCategories.getCount()-1){
+            productosrecycler.setAdapter(new ProductsAdapter(pcDao,
+            productsDao.getProductsByCategoryAndDescription(categoriaspinner.getSelectedItemPosition(), buscartext.getText().toString())));
+        }else{
+            productosrecycler.setAdapter(new ProductsAdapter(pcDao, productsDao.getAllProductsByDescription(buscartext.getText().toString())));
+        }
+    }
 }

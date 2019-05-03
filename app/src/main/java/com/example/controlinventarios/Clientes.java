@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -225,36 +226,44 @@ public class Clientes extends AppCompatActivity {
         }
         myAdapter = new MyAdapter(this, 0, listVOs);*/
         busquedaspinner.setAdapter(catBusqueda);
-        busquedaspinner.setSelection(0);
         //Realizar el filtrado desde la creacion
         AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
-        CustomersDao customersDao = db.customersDao();
-        switch (busquedaspinner.getSelectedItemPosition()) {
-            case 0:
-                adapter = new CustomerAdapter(customersDao.getCustomersByFirstName(buscartext.getText().toString()));
-                customerRecycler.setAdapter(adapter);
-                break;
-            case 1:
-                adapter = new CustomerAdapter(customersDao.getCustomersByLastName(buscartext.getText().toString()));
-                customerRecycler.setAdapter(adapter);
-                break;
-            case 2:
-                adapter = new CustomerAdapter(customersDao.getCustomerByAdress(buscartext.getText().toString()));
-                customerRecycler.setAdapter(adapter);
-                break;
-            case 3:
-                adapter = new CustomerAdapter(customersDao.getCustomerByTelephone(buscartext.getText().toString()));
-                customerRecycler.setAdapter(adapter);
-                break;
-            case 4:
-                adapter = new CustomerAdapter(customersDao.getCustomerByEmail(buscartext.getText().toString()));
-                customerRecycler.setAdapter(adapter);
-                break;
-            default:
-                break;
-        }
+        final CustomersDao customersDao = db.customersDao();
         customerRecycler.setLayoutManager(new LinearLayoutManager(this));
-        customerRecycler.setAdapter(adapter);
+        busquedaspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        adapter = new CustomerAdapter(customersDao.getCustomersByFirstName(buscartext.getText().toString()));
+                        customerRecycler.setAdapter(adapter);
+                        break;
+                    case 1:
+                        adapter = new CustomerAdapter(customersDao.getCustomersByLastName(buscartext.getText().toString()));
+                        customerRecycler.setAdapter(adapter);
+                        break;
+                    case 2:
+                        adapter = new CustomerAdapter(customersDao.getCustomerByAdress(buscartext.getText().toString()));
+                        customerRecycler.setAdapter(adapter);
+                        break;
+                    case 3:
+                        adapter = new CustomerAdapter(customersDao.getCustomerByTelephone(buscartext.getText().toString()));
+                        customerRecycler.setAdapter(adapter);
+                        break;
+                    case 4:
+                        adapter = new CustomerAdapter(customersDao.getCustomerByEmail(buscartext.getText().toString()));
+                        customerRecycler.setAdapter(adapter);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
