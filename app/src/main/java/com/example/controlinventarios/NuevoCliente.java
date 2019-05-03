@@ -227,6 +227,7 @@ public class NuevoCliente extends AppCompatActivity {
                 }else{
                     editPhone2.setEnabled(false);
                     chckPhone3.setEnabled(false);
+                    editPhone3.setEnabled(false);
                 }
             }
         });
@@ -281,13 +282,13 @@ public class NuevoCliente extends AppCompatActivity {
                         String phone2 = null;
                         String phone3 = null;
                         String email = null;
-                        if(chckPhone2.isChecked()){
+                        if(editPhone2.isEnabled()){
                             phone2 = editPhone2.getText().toString().trim();
                         }
-                        if(chckPhone3.isChecked()){
+                        if(editPhone3.isEnabled()){
                             phone3 = editPhone3.getText().toString().trim();
                         }
-                        if(chckEmail.isChecked()){
+                        if(editEmail.isEnabled()){
                             email = editEmail.getText().toString().trim();
                         }
                         int id = AppDatabase.getAppDatabase(NuevoCliente.this).customersDao().getCustomersByFirstName("").size();
@@ -365,13 +366,13 @@ public class NuevoCliente extends AppCompatActivity {
                         editCustomer.setLast_name(editLastName.getText().toString().trim());
                         editCustomer.setAddress(editAdress.getText().toString().trim());
                         editCustomer.setPhone1(editPhone1.getText().toString().trim());
-                        if(chckPhone2.isChecked()){
+                        if(editPhone2.isEnabled()){
                             editCustomer.setPhone2(editPhone2.getText().toString().trim());
                         }
-                        if(chckPhone3.isChecked()){
+                        if(editPhone3.isEnabled()){
                             editCustomer.setPhone3(editPhone3.getText().toString().trim());
                         }
-                        if(chckEmail.isChecked()){
+                        if(editEmail.isEnabled()){
                             editCustomer.setE_mail(editEmail.getText().toString().trim());
                         }
                         AppDatabase.getAppDatabase(NuevoCliente.this).customersDao().updateCustomer(editCustomer);

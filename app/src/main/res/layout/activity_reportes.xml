@@ -29,6 +29,7 @@
            android:src="@drawable/icon_faltantes"
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
+            android:tooltipText="Productos faltantes"
             android:text="Ordenes" />
 
     </LinearLayout>
@@ -46,6 +47,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
+            android:tooltipText="Simulacion de Confirmaciones"
             android:src="@drawable/icon_confirmar"
             android:text="Ordenes" />
 
@@ -65,6 +67,7 @@
             android:src="@drawable/icon_resumen"
             android:backgroundTint="@android:color/transparent"
             android:gravity="center"
+            android:tooltipText="Resumen de ventas"
             android:text="Ordenes"/>
 
     </LinearLayout>
