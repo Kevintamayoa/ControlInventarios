@@ -226,7 +226,7 @@ public class NuevoCliente extends AppCompatActivity {
                     chckPhone3.setEnabled(true);
                 }else{
                     editPhone2.setEnabled(false);
-                    chckPhone3.setSelected(false);
+                    chckPhone3.setChecked(true);
                     chckPhone3.setEnabled(false);
                     editPhone3.setEnabled(false);
                 }
