@@ -41,6 +41,7 @@ import com.example.controlinventarios.Dao.ProductCategoriesDao;
 import com.example.controlinventarios.Dao.StatusDao;
 import com.example.controlinventarios.db.AppDatabase;
 import com.example.controlinventarios.db.Customers;
+import com.example.controlinventarios.db.Orders;
 import com.example.controlinventarios.db.Products;
 
 import java.util.ArrayList;
@@ -161,6 +162,11 @@ class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
 
     public void deleteCustomer(final int position) {
         AppDatabase.getAppDatabase(context).customersDao().deleteCustomer(customers.get(position));
+    }
+
+    public void deleteOrders(final int position){
+        List<Orders> ordenes = AppDatabase.getAppDatabase(context).ordersDao().getOrdersByCstomer(customers.get(position).getId());
+        AppDatabase.getAppDatabase(context).ordersDao().deleteOrder(ordenes);
     }
 }
 
@@ -335,6 +341,7 @@ public class Clientes extends AppCompatActivity {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         adapter.deleteCustomer(item.getGroupId());
+                        adapter.deleteOrders(item.getGroupId());
                         AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
                         CustomersDao customersDao = db.customersDao();
                         switch (busquedaspinner.getSelectedItemPosition()) {

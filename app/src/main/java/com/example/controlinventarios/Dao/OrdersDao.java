@@ -1,6 +1,7 @@
 package com.example.controlinventarios.Dao;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -54,4 +55,10 @@ public interface OrdersDao {
 
     @Query("SELECT MAX(id) FROM orders")
     public int getMaxId();
+
+    @Query("SELECT * FROM orders o WHERE o.customer_id==:id")
+    public List<Orders> getOrdersByCstomer(int id);
+
+    @Delete
+    public void deleteOrder(List<Orders> orders);
 }
